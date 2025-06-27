@@ -65,21 +65,39 @@ export function App() {
       >
         {secondsToMMSS(ROUND_SECONDS - secondsOfRound)}
       </CircularIndicator>
-      {state !== 'RUNNING' && (
-        <button className="w3-button w3-blue" onClick={onStartClicked}>
-          Start
-        </button>
-      )}
-      {state === 'RUNNING' && (
-        <button className="w3-button w3-blue" onClick={onPauseClicked}>
-          Pause
-        </button>
-      )}
-      {state === 'RUNNING' && (
-        <button className="w3-button w3-blue" onClick={onStopClicked}>
-          Stop
-        </button>
-      )}
+
+      <div className="w3-bottom">
+        {state !== 'RUNNING' && (
+          <div className="w3-row">
+            <button
+              className="w3-button w3-block w3-blue"
+              onClick={onStartClicked}
+            >
+              Start
+            </button>
+          </div>
+        )}
+        {state === 'RUNNING' && (
+          <div className="w3-row">
+            <div className="w3-col" style={{ width: '50%' }}>
+              <button
+                className="w3-button w3-block w3-blue"
+                onClick={onPauseClicked}
+              >
+                Pause
+              </button>
+            </div>
+            <div className="w3-col" style={{ width: '50%' }}>
+              <button
+                className="w3-button w3-block w3-blue"
+                onClick={onStopClicked}
+              >
+                Stop
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   )
 }
