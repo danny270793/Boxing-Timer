@@ -1,33 +1,25 @@
 .circular-progress {
   --percentage: 10;
   --rotation: calc(var(--percentage) * 3.6deg);
-
   background: conic-gradient(var(--accent-color) var(--rotation), #e0e0e0 0deg);
-  max-height: 100vh;
-  width: 120px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
+  width: min(80vw, 80vh);
 
-  position: relative;
-
+  /* center content */
   display: flex;
-  /* center vertically */
   align-items: center;
-  /* center horizontally */
   justify-content: center;
 }
 
 /* inside circle */
 .circular-progress-children {
-  width: 80px;
-  aspect-ratio: 1 / 1;
   background: var(--background-color);
+  aspect-ratio: 1 / 1;
+  width: min(70vw, 70vh);
   border-radius: 50%;
 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Center absolutely */
+  /* center content */
   display: flex;
   align-items: center;
   justify-content: center;
