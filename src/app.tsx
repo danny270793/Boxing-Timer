@@ -14,6 +14,7 @@ const ROUND_SECONDS: number = 7
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
 
 export function App() {
+  const [round, setRound] = useState<number>(1)
   const [secondsOfRound, setSecondsOfRound] = useState<number>(0)
   const [state, setState] = useState<State>('STOPPED')
   const intervalRef: MutableRef<number | null> = useRef<number | null>(null)
@@ -55,26 +56,31 @@ export function App() {
     setState('STOPPED')
   }
 
+  const percentage: number =
+    100 - ((ROUND_SECONDS - secondsOfRound) / ROUND_SECONDS) * 100
+
   return (
     <>
       <div
-        className="w3-margin"
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
+        style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
       >
-        <CircularIndicator
-          percentage={
-            100 - ((ROUND_SECONDS - secondsOfRound) / ROUND_SECONDS) * 100
-          }
+        <h1 className="w3-center" style={{ flexShrink: 0 }}>
+          Round {round} of 12
+        </h1>
+        <div
+          className="w3-center"
+          style={{
+            flexGrow: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          {secondsToMMSS(ROUND_SECONDS - secondsOfRound)}
-        </CircularIndicator>
+          <CircularIndicator percentage={percentage}>
+            {secondsToMMSS(ROUND_SECONDS - secondsOfRound)}
+          </CircularIndicator>
+        </div>
       </div>
-
       <div className="w3-bottom">
         {state !== 'RUNNING' && (
           <div className="w3-row">
