@@ -9,12 +9,15 @@ const secondsToMMSS = (seconds: number): string => {
     .padStart(2, '0')}`
 }
 
-const ROUND_SECONDS: number = 7
+const SECONDS_BY_ROUND: number = 7
+const REST_SECONDS: number = 5
+const ROUNDS: number = 12
 
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
 
 export function App() {
   const [round, setRound] = useState<number>(1)
+  const [resting, setResting] = useState<boolean>(false)
   const [secondsOfRound, setSecondsOfRound] = useState<number>(0)
   const [state, setState] = useState<State>('STOPPED')
   const intervalRef: MutableRef<number | null> = useRef<number | null>(null)
@@ -22,13 +25,20 @@ export function App() {
   useEffect(() => {
     if (state === 'RUNNING') {
       intervalRef.current = setInterval(() => {
-        setSecondsOfRound((previous: number) => {
-          if (previous >= ROUND_SECONDS) {
-            clearInterval(intervalRef.current!)
-            setState('FINISHED')
-            return previous
+        setSecondsOfRound((previousSeconds: number) => {
+          if (previousSeconds >= SECONDS_BY_ROUND) {
+            setRound((previousRound: number) => {
+              if (previousRound >= ROUNDS) {
+                clearInterval(intervalRef.current!)
+                setState('FINISHED')
+                return previousRound
+              }
+              return previousRound + 1
+            })
+            return 0
           }
-          return previous + 1
+
+          return previousSeconds + 1
         })
       }, 1000)
     }
@@ -57,7 +67,7 @@ export function App() {
   }
 
   const percentage: number =
-    100 - ((ROUND_SECONDS - secondsOfRound) / ROUND_SECONDS) * 100
+    100 - ((SECONDS_BY_ROUND - secondsOfRound) / SECONDS_BY_ROUND) * 100
 
   return (
     <>
@@ -77,7 +87,7 @@ export function App() {
           }}
         >
           <CircularIndicator percentage={percentage}>
-            {secondsToMMSS(ROUND_SECONDS - secondsOfRound)}
+            {secondsToMMSS(SECONDS_BY_ROUND - secondsOfRound)}
           </CircularIndicator>
         </div>
       </div>
