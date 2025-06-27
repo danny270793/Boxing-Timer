@@ -57,14 +57,23 @@ export function App() {
 
   return (
     <>
-      {}
-      <CircularIndicator
-        percentage={
-          100 - ((ROUND_SECONDS - secondsOfRound) / ROUND_SECONDS) * 100
-        }
+      <div
+        className="w3-margin"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
       >
-        {secondsToMMSS(ROUND_SECONDS - secondsOfRound)}
-      </CircularIndicator>
+        <CircularIndicator
+          percentage={
+            100 - ((ROUND_SECONDS - secondsOfRound) / ROUND_SECONDS) * 100
+          }
+        >
+          {secondsToMMSS(ROUND_SECONDS - secondsOfRound)}
+        </CircularIndicator>
+      </div>
 
       <div className="w3-bottom">
         {state !== 'RUNNING' && (
