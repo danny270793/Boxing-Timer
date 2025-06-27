@@ -1,3 +1,9 @@
+import { CircularIndicator } from './components/circular-indicator'
+
 export function App() {
-  return <>Hello world!</>
+  return (
+    <>
+      <CircularIndicator percentage={50} />
+    </>
+  )
 }
