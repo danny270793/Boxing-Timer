@@ -1,10 +1,14 @@
 .circular-progress {
   --percentage: 10;
   --rotation: calc(var(--percentage) * 3.6deg);
+
   background: conic-gradient(var(--accent-color) var(--rotation), #e0e0e0 0deg);
+  max-height: 100vh;
   width: 120px;
-  height: 120px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
+
+  position: relative;
 
   display: flex;
   /* center vertically */
@@ -16,8 +20,15 @@
 /* inside circle */
 .circular-progress-children {
   width: 80px;
-  height: 80px;
+  aspect-ratio: 1 / 1;
   background: var(--background-color);
-  position: absolute;
   border-radius: 50%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center absolutely */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
