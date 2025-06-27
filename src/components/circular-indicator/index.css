@@ -14,11 +14,10 @@
 }
 
 /* inside circle */
-.circular-progress::before {
+.circular-progress-children {
   width: 80px;
   height: 80px;
   background: var(--background-color);
   position: absolute;
-  content: '';
   border-radius: 50%;
 }
