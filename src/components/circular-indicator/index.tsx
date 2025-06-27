@@ -4,28 +4,20 @@ import './index.css'
 interface CircularIndicatorProps {
   percentage: number
   children?: ReactNode
-  size?: number
-  innerSize?: number
 }
 
 export const CircularIndicator: FC<CircularIndicatorProps> = (
   props: CircularIndicatorProps,
 ): ReactNode => {
   return (
-    <div
-      class="circular-progress"
-      style={{
-        '--percentage': props.percentage,
-        width: props.size ? `${props.size}px` : '100vw',
-      }}
-    >
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div
-        className="circular-progress-children"
+        className="circular-progress"
         style={{
-          width: props.innerSize ? `${props.innerSize * 0.9}px` : '80vw',
+          '--percentage': props.percentage,
         }}
       >
-        {props.children}
+        <div className="circular-progress-children">{props.children}</div>
       </div>
     </div>
   )
