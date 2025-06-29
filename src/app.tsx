@@ -76,19 +76,21 @@ export function App() {
   const roundPercentage: number = (roundSeconds / SECONDS_BY_ROUND) * 100
   const restPercentage: number = (restSeconds / REST_SECONDS) * 100
 
-  if (roundSeconds === SECONDS_BY_ROUND || roundSeconds === 0) {
-    bellRef.current.currentTime = 0
-    bellRef.current.play()
-  }
+  if (state === 'RUNNING') {
+    if (roundSeconds === SECONDS_BY_ROUND || roundSeconds === 0) {
+      bellRef.current.currentTime = 0
+      bellRef.current.play()
+    }
 
-  if (roundSeconds === SECONDS_BY_ROUND - 10) {
-    tenSecondsLeftRef.current.currentTime = 0
-    tenSecondsLeftRef.current.play()
-  }
+    if (roundSeconds === SECONDS_BY_ROUND - 10) {
+      tenSecondsLeftRef.current.currentTime = 0
+      tenSecondsLeftRef.current.play()
+    }
 
-  if (restSeconds === REST_SECONDS - 10) {
-    tenSecondsLeftRef.current.currentTime = 0
-    tenSecondsLeftRef.current.play()
+    if (restSeconds === REST_SECONDS - 10) {
+      tenSecondsLeftRef.current.currentTime = 0
+      tenSecondsLeftRef.current.play()
+    }
   }
 
   return (
