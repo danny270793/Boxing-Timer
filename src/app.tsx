@@ -66,21 +66,27 @@ export function App() {
     setState('PAUSED')
   }
 
-  // const seconds = 31
-
   const rounds: number =
     Math.floor(seconds / (SECONDS_BY_ROUND + REST_SECONDS)) + 1
   const lastRoundSeconds: number =
     (rounds - 1) * (SECONDS_BY_ROUND + REST_SECONDS)
   const roundSeconds: number = seconds - lastRoundSeconds
   const isInRest: boolean = roundSeconds > SECONDS_BY_ROUND
+  const restSeconds: number = roundSeconds - SECONDS_BY_ROUND
   const roundPercentage: number = (roundSeconds / SECONDS_BY_ROUND) * 100
+  const restPercentage: number = (restSeconds / REST_SECONDS) * 100
+
   if (roundSeconds === SECONDS_BY_ROUND || roundSeconds === 0) {
     bellRef.current.currentTime = 0
     bellRef.current.play()
   }
 
   if (roundSeconds === SECONDS_BY_ROUND - 10) {
+    tenSecondsLeftRef.current.currentTime = 0
+    tenSecondsLeftRef.current.play()
+  }
+
+  if (restSeconds === REST_SECONDS - 10) {
     tenSecondsLeftRef.current.currentTime = 0
     tenSecondsLeftRef.current.play()
   }
@@ -98,11 +104,11 @@ export function App() {
         </div>
         <div style={{ aspectRatio: '1/1' }}>
           <CircularIndicator
-            percentage={roundPercentage}
+            percentage={isInRest ? restPercentage : roundPercentage}
             background={isInRest ? '#ff9800' : '#4caf50'}
           >
             <div className="w3-xxxlarge">
-              {SECONDS_BY_ROUND - roundSeconds < 0
+              {isInRest
                 ? secondsToMMSS(SECONDS_BY_ROUND + REST_SECONDS - roundSeconds)
                 : secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
             </div>
