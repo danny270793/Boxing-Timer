@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'preact/hooks'
 import { CircularIndicator } from './components/circular-indicator'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 
 const secondsToMMSS = (seconds: number): string => {
   const minutes: number = Math.floor(seconds / 60)
@@ -91,7 +93,7 @@ export function App() {
             className="w3-button w3-blue w3-block"
             onClick={onStartClicked}
           >
-            Start
+            <FontAwesomeIcon className="w3-xxxlarge" icon={faPlay} />
           </button>
         )}
         {state === 'RUNNING' && (
@@ -101,7 +103,7 @@ export function App() {
                 className="w3-button w3-blue w3-block"
                 onClick={onPauseClicked}
               >
-                Pause
+                <FontAwesomeIcon className="w3-xxxlarge" icon={faPause} />
               </button>
             </div>
             <div className="w3-col" style={{ width: '50%' }}>
@@ -109,7 +111,7 @@ export function App() {
                 className="w3-button w3-red w3-block"
                 onClick={onStopClicked}
               >
-                Stop
+                <FontAwesomeIcon className="w3-xxxlarge" icon={faStop} />
               </button>
             </div>
           </div>
