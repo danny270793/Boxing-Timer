@@ -2,22 +2,25 @@
   --percentage: 10;
   --rotation: calc(var(--percentage) * 3.6deg);
   background: conic-gradient(var(--accent-color) var(--rotation), #e0e0e0 0deg);
-  width: 120px;
-  height: 120px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
+  width: min(80vw, 80vh);
 
+  /* center content */
   display: flex;
-  /* center vertically */
   align-items: center;
-  /* center horizontally */
   justify-content: center;
 }
 
 /* inside circle */
 .circular-progress-children {
-  width: 80px;
-  height: 80px;
-  background: var(--background-color);
-  position: absolute;
+  /* background: var(--background-color); */
+  aspect-ratio: 1 / 1;
+  width: min(70vw, 70vh);
   border-radius: 50%;
+
+  /* center content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
