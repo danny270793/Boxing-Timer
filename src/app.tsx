@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useRef, useState, type MutableRef } from 'preact/hooks'
 import { CircularIndicator } from './components/circular-indicator'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
+import Bell from './assets/boxing-bell.mp3'
+import TenSecondsLeft from './assets/10-seconds-left.mp3'
 
 const secondsToMMSS = (seconds: number): string => {
   const minutes: number = Math.floor(seconds / 60)
@@ -13,13 +15,18 @@ const secondsToMMSS = (seconds: number): string => {
 
 const minutesInSeconds = (minutes: number): number => minutes * 60
 
-const SECONDS_BY_ROUND: number = 10
-const REST_SECONDS: number = 5
+const SECONDS_BY_ROUND: number = 30
+const REST_SECONDS: number = 15
 const ROUNDS: number = 12
 
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
 
 export function App() {
+  const bellRef: MutableRef<HTMLAudioElement> = useRef(new Audio(Bell))
+  const tenSecondsLeftRef: MutableRef<HTMLAudioElement> = useRef(
+    new Audio(TenSecondsLeft),
+  )
+
   const [state, setState] = useState<State>('STOPPED')
   const [seconds, setSeconds] = useState<number>(0)
 
@@ -59,6 +66,8 @@ export function App() {
     setState('PAUSED')
   }
 
+  // const seconds = 31
+
   const rounds: number =
     Math.floor(seconds / (SECONDS_BY_ROUND + REST_SECONDS)) + 1
   const lastRoundSeconds: number =
@@ -66,6 +75,15 @@ export function App() {
   const roundSeconds: number = seconds - lastRoundSeconds
   const isInRest: boolean = roundSeconds > SECONDS_BY_ROUND
   const roundPercentage: number = (roundSeconds / SECONDS_BY_ROUND) * 100
+  if (roundSeconds === SECONDS_BY_ROUND || roundSeconds === 0) {
+    bellRef.current.currentTime = 0
+    bellRef.current.play()
+  }
+
+  if (roundSeconds === SECONDS_BY_ROUND - 10) {
+    tenSecondsLeftRef.current.currentTime = 0
+    tenSecondsLeftRef.current.play()
+  }
 
   return (
     <div
@@ -83,7 +101,11 @@ export function App() {
             percentage={roundPercentage}
             background={isInRest ? '#ff9800' : '#4caf50'}
           >
-            <div className="w3-xxxlarge">{secondsToMMSS(roundSeconds)}</div>
+            <div className="w3-xxxlarge">
+              {SECONDS_BY_ROUND - roundSeconds < 0
+                ? secondsToMMSS(SECONDS_BY_ROUND + REST_SECONDS - roundSeconds)
+                : secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
+            </div>
           </CircularIndicator>
         </div>
       </div>
