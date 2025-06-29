@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState, type MutableRef } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { CircularIndicator } from './components/circular-indicator'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 
 const secondsToMMSS = (seconds: number): string => {
   const minutes: number = Math.floor(seconds / 60)
@@ -9,77 +11,112 @@ const secondsToMMSS = (seconds: number): string => {
     .padStart(2, '0')}`
 }
 
-const ROUND_SECONDS: number = 7
+const minutesInSeconds = (minutes: number): number => minutes * 60
+
+const SECONDS_BY_ROUND: number = 10
+const REST_SECONDS: number = 5
+const ROUNDS: number = 12
 
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
 
 export function App() {
-  const [secondsOfRound, setSecondsOfRound] = useState<number>(0)
   const [state, setState] = useState<State>('STOPPED')
-  const intervalRef: MutableRef<number | null> = useRef<number | null>(null)
+  const [seconds, setSeconds] = useState<number>(0)
 
   useEffect(() => {
     if (state === 'RUNNING') {
-      intervalRef.current = setInterval(() => {
-        setSecondsOfRound((previous: number) => {
-          if (previous >= ROUND_SECONDS) {
-            clearInterval(intervalRef.current!)
+      const interval: number = setInterval(() => {
+        setSeconds((prevSeconds: number) => {
+          if (
+            prevSeconds >=
+            ROUNDS * SECONDS_BY_ROUND + ROUNDS * REST_SECONDS
+          ) {
+            clearInterval(interval)
             setState('FINISHED')
-            return previous
+            return 0
           }
-          return previous + 1
+          return prevSeconds + 1
         })
       }, 1000)
-    }
 
-    return () => clearInterval(intervalRef.current!)
+      return () => clearInterval(interval)
+    }
   }, [state])
 
-  const onStartClicked = async () => {
+  const onStartClicked = () => {
     if (state === 'FINISHED') {
-      setSecondsOfRound(0)
+      setSeconds(0)
     }
-    if (state !== 'RUNNING') {
-      setState('RUNNING')
-    }
-  }
-
-  const onPauseClicked = () => {
-    clearInterval(intervalRef.current!)
-    setState('PAUSED')
+    setState('RUNNING')
   }
 
   const onStopClicked = () => {
-    clearInterval(intervalRef.current!)
-    setSecondsOfRound(0)
+    setSeconds(0)
     setState('STOPPED')
   }
 
+  const onPauseClicked = () => {
+    setState('PAUSED')
+  }
+
+  const rounds: number =
+    Math.floor(seconds / (SECONDS_BY_ROUND + REST_SECONDS)) + 1
+  const lastRoundSeconds: number =
+    (rounds - 1) * (SECONDS_BY_ROUND + REST_SECONDS)
+  const roundSeconds: number = seconds - lastRoundSeconds
+  const isInRest: boolean = roundSeconds > SECONDS_BY_ROUND
+  const roundPercentage: number = (roundSeconds / SECONDS_BY_ROUND) * 100
+
   return (
-    <>
-      {}
-      <CircularIndicator
-        percentage={
-          100 - ((ROUND_SECONDS - secondsOfRound) / ROUND_SECONDS) * 100
-        }
-      >
-        {secondsToMMSS(ROUND_SECONDS - secondsOfRound)}
-      </CircularIndicator>
-      {state !== 'RUNNING' && (
-        <button className="w3-button w3-blue" onClick={onStartClicked}>
-          Start
-        </button>
-      )}
-      {state === 'RUNNING' && (
-        <button className="w3-button w3-blue" onClick={onPauseClicked}>
-          Pause
-        </button>
-      )}
-      {state === 'RUNNING' && (
-        <button className="w3-button w3-blue" onClick={onStopClicked}>
-          Stop
-        </button>
-      )}
-    </>
+    <div
+      className={isInRest ? 'w3-orange' : 'w3-green'}
+      style={{ height: '100vh' }}
+    >
+      <div className="w3-container">
+        <div>
+          <h1 className="w3-center">
+            Round {rounds} of {ROUNDS}
+          </h1>
+        </div>
+        <div style={{ aspectRatio: '1/1' }}>
+          <CircularIndicator
+            percentage={roundPercentage}
+            background={isInRest ? '#ff9800' : '#4caf50'}
+          >
+            <div className="w3-xxxlarge">{secondsToMMSS(roundSeconds)}</div>
+          </CircularIndicator>
+        </div>
+      </div>
+      <div className="w3-bottom">
+        {state !== 'RUNNING' && (
+          <button
+            className="w3-button w3-blue w3-block"
+            onClick={onStartClicked}
+          >
+            <FontAwesomeIcon className="w3-xxxlarge" icon={faPlay} />
+          </button>
+        )}
+        {state === 'RUNNING' && (
+          <div className="w3-row">
+            <div className="w3-col" style={{ width: '50%' }}>
+              <button
+                className="w3-button w3-blue w3-block"
+                onClick={onPauseClicked}
+              >
+                <FontAwesomeIcon className="w3-xxxlarge" icon={faPause} />
+              </button>
+            </div>
+            <div className="w3-col" style={{ width: '50%' }}>
+              <button
+                className="w3-button w3-red w3-block"
+                onClick={onStopClicked}
+              >
+                <FontAwesomeIcon className="w3-xxxlarge" icon={faStop} />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
