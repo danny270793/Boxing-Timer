@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type MutableRef } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { CircularIndicator } from './components/circular-indicator'
 
 const secondsToMMSS = (seconds: number): string => {
@@ -9,104 +9,96 @@ const secondsToMMSS = (seconds: number): string => {
     .padStart(2, '0')}`
 }
 
-const SECONDS_BY_ROUND: number = 7
+const minutesInSeconds = (minutes: number): number => minutes * 60
+
+const SECONDS_BY_ROUND: number = 10
 const REST_SECONDS: number = 5
 const ROUNDS: number = 12
 
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
 
 export function App() {
-  const [round, setRound] = useState<number>(1)
-  const [resting, setResting] = useState<boolean>(false)
-  const [secondsOfRound, setSecondsOfRound] = useState<number>(0)
   const [state, setState] = useState<State>('STOPPED')
-  const intervalRef: MutableRef<number | null> = useRef<number | null>(null)
+  const [seconds, setSeconds] = useState<number>(0)
 
   useEffect(() => {
     if (state === 'RUNNING') {
-      intervalRef.current = setInterval(() => {
-        setSecondsOfRound((previousSeconds: number) => {
-          if (previousSeconds >= SECONDS_BY_ROUND) {
-            setRound((previousRound: number) => {
-              if (previousRound >= ROUNDS) {
-                clearInterval(intervalRef.current!)
-                setState('FINISHED')
-                return previousRound
-              }
-              return previousRound + 1
-            })
+      const interval: number = setInterval(() => {
+        setSeconds((prevSeconds: number) => {
+          if (
+            prevSeconds >=
+            ROUNDS * SECONDS_BY_ROUND + ROUNDS * REST_SECONDS
+          ) {
+            clearInterval(interval)
+            setState('FINISHED')
             return 0
           }
-
-          return previousSeconds + 1
+          return prevSeconds + 1
         })
       }, 1000)
-    }
 
-    return () => clearInterval(intervalRef.current!)
+      return () => clearInterval(interval)
+    }
   }, [state])
 
-  const onStartClicked = async () => {
+  const onStartClicked = () => {
     if (state === 'FINISHED') {
-      setSecondsOfRound(0)
+      setSeconds(0)
     }
-    if (state !== 'RUNNING') {
-      setState('RUNNING')
-    }
-  }
-
-  const onPauseClicked = () => {
-    clearInterval(intervalRef.current!)
-    setState('PAUSED')
+    setState('RUNNING')
   }
 
   const onStopClicked = () => {
-    clearInterval(intervalRef.current!)
-    setSecondsOfRound(0)
+    setSeconds(0)
     setState('STOPPED')
   }
 
-  const percentage: number =
-    100 - ((SECONDS_BY_ROUND - secondsOfRound) / SECONDS_BY_ROUND) * 100
+  const onPauseClicked = () => {
+    setState('PAUSED')
+  }
+
+  const rounds: number =
+    Math.floor(seconds / (SECONDS_BY_ROUND + REST_SECONDS)) + 1
+  const lastRoundSeconds: number =
+    (rounds - 1) * (SECONDS_BY_ROUND + REST_SECONDS)
+  const roundSeconds: number = seconds - lastRoundSeconds
+  const isInRest: boolean = roundSeconds > SECONDS_BY_ROUND
+  const roundPercentage: number = (roundSeconds / SECONDS_BY_ROUND) * 100
 
   return (
-    <>
-      <div
-        style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
-      >
-        <h1 className="w3-center" style={{ flexShrink: 0 }}>
-          Round {round} of 12
-        </h1>
-        <div
-          className="w3-center"
-          style={{
-            flexGrow: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <CircularIndicator percentage={percentage}>
-            {secondsToMMSS(SECONDS_BY_ROUND - secondsOfRound)}
+    <div
+      className={isInRest ? 'w3-red' : 'w3-green'}
+      style={{ height: '100vh' }}
+    >
+      <div className="w3-container">
+        <div>
+          <h1 className="w3-center">
+            Round {rounds} of {ROUNDS}
+          </h1>
+        </div>
+        <div style={{ aspectRatio: '1/1' }}>
+          <CircularIndicator
+            percentage={roundPercentage}
+            background={isInRest ? '#f44336' : '#4caf50'}
+          >
+            {secondsToMMSS(roundSeconds)}
           </CircularIndicator>
         </div>
       </div>
       <div className="w3-bottom">
         {state !== 'RUNNING' && (
-          <div className="w3-row">
-            <button
-              className="w3-button w3-block w3-blue"
-              onClick={onStartClicked}
-            >
-              Start
-            </button>
-          </div>
+          <button
+            className="w3-button w3-blue w3-block"
+            onClick={onStartClicked}
+          >
+            Start
+          </button>
         )}
         {state === 'RUNNING' && (
           <div className="w3-row">
             <div className="w3-col" style={{ width: '50%' }}>
               <button
-                className="w3-button w3-block w3-blue"
+                className="w3-button w3-blue w3-block"
                 onClick={onPauseClicked}
               >
                 Pause
@@ -114,7 +106,7 @@ export function App() {
             </div>
             <div className="w3-col" style={{ width: '50%' }}>
               <button
-                className="w3-button w3-block w3-blue"
+                className="w3-button w3-red w3-block"
                 onClick={onStopClicked}
               >
                 Stop
@@ -123,6 +115,6 @@ export function App() {
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }
