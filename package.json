@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "android": "cap sync android && cap run android",
+    "ios": "cap sync ios && cap run ios",
     "icons:generate": "capacitor-assets generate"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "@capacitor/cli": "^6.2.1",
     "@capacitor/core": "^6.2.1",
     "@capacitor/ios": "^6.2.1",
+    "@capacitor/status-bar": "^6.0.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",

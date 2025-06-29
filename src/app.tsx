@@ -5,6 +5,7 @@ import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import Bell from './assets/boxing-bell.mp3'
 import TenSecondsLeft from './assets/10-seconds-left.mp3'
 import { Time } from './utils/time'
+import { StatusBar } from './utils/status-bar'
 
 const SECONDS_BY_ROUND: number = 30
 const REST_SECONDS: number = 15
@@ -20,6 +21,10 @@ export function App() {
 
   const [state, setState] = useState<State>('STOPPED')
   const [seconds, setSeconds] = useState<number>(0)
+
+  useEffect(() => {
+    StatusBar.backgroundColorByHexString('#2196f3')
+  }, [])
 
   useEffect(() => {
     if (state === 'RUNNING') {
