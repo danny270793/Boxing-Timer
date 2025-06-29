@@ -104,17 +104,32 @@ export function App() {
             Round {rounds} of {ROUNDS}
           </h1>
         </div>
-        <div style={{ aspectRatio: '1/1' }}>
-          <CircularIndicator
-            percentage={isInRest ? restPercentage : roundPercentage}
-            background={isInRest ? '#ff9800' : '#4caf50'}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 'calc(100vh - 150px)',
+          }}
+        >
+          <div
+            style={{
+              aspectRatio: '1/1',
+            }}
           >
-            <div className="w3-xxxlarge">
-              {isInRest
-                ? secondsToMMSS(SECONDS_BY_ROUND + REST_SECONDS - roundSeconds)
-                : secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
-            </div>
-          </CircularIndicator>
+            <CircularIndicator
+              percentage={isInRest ? restPercentage : roundPercentage}
+              background={isInRest ? '#ff9800' : '#4caf50'}
+            >
+              <div className="w3-xxxlarge">
+                {isInRest
+                  ? secondsToMMSS(
+                      SECONDS_BY_ROUND + REST_SECONDS - roundSeconds,
+                    )
+                  : secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
+              </div>
+            </CircularIndicator>
+          </div>
         </div>
       </div>
       <div className="w3-bottom">
