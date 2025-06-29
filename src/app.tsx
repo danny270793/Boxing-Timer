@@ -23,7 +23,7 @@ export function App() {
 
   useEffect(() => {
     if (state === 'RUNNING') {
-      const interval: number = setInterval(() => {
+      const interval: NodeJS.Timeout = setInterval(() => {
         setSeconds((prevSeconds: number) => {
           if (
             prevSeconds >=
