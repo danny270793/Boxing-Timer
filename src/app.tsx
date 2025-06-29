@@ -7,8 +7,8 @@ import TenSecondsLeft from './assets/10-seconds-left.mp3'
 import { Time } from './utils/time'
 import { StatusBar } from './utils/status-bar'
 
-const SECONDS_BY_ROUND: number = 30
-const REST_SECONDS: number = 15
+const SECONDS_BY_ROUND: number = Time.minutesInSeconds(3)
+const REST_SECONDS: number = Time.minutesInSeconds(1)
 const ROUNDS: number = 12
 
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
