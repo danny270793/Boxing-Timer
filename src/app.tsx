@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useRef, useState, type MutableRef } from 'preact/hooks'
 import { CircularIndicator } from './components/circular-indicator'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
+import Bell from './assets/boxing-bell.mp3'
 
 const secondsToMMSS = (seconds: number): string => {
   const minutes: number = Math.floor(seconds / 60)
@@ -20,6 +21,8 @@ const ROUNDS: number = 12
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
 
 export function App() {
+  const audioRef: MutableRef<HTMLAudioElement> = useRef(new Audio(Bell))
+
   const [state, setState] = useState<State>('STOPPED')
   const [seconds, setSeconds] = useState<number>(0)
 
@@ -66,6 +69,10 @@ export function App() {
   const roundSeconds: number = seconds - lastRoundSeconds
   const isInRest: boolean = roundSeconds > SECONDS_BY_ROUND
   const roundPercentage: number = (roundSeconds / SECONDS_BY_ROUND) * 100
+  if (roundSeconds === SECONDS_BY_ROUND) {
+    audioRef.current.currentTime = 0
+    audioRef.current.play()
+  }
 
   return (
     <div
