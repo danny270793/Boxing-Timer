@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "android": "cap sync android && cap run android",
+    "ios": "cap sync ios && cap run ios",
     "icons:generate": "capacitor-assets generate"
   },
   "dependencies": {
