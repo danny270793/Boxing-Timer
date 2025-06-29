@@ -4,16 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import Bell from './assets/boxing-bell.mp3'
 import TenSecondsLeft from './assets/10-seconds-left.mp3'
-
-const secondsToMMSS = (seconds: number): string => {
-  const minutes: number = Math.floor(seconds / 60)
-  const remainingSeconds: number = seconds % 60
-  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
-    .toString()
-    .padStart(2, '0')}`
-}
-
-const minutesInSeconds = (minutes: number): number => minutes * 60
+import { Time } from './utils/time'
 
 const SECONDS_BY_ROUND: number = 30
 const REST_SECONDS: number = 15
@@ -123,10 +114,10 @@ export function App() {
             >
               <div className="w3-xxxlarge">
                 {isInRest
-                  ? secondsToMMSS(
+                  ? Time.secondsToMMSS(
                       SECONDS_BY_ROUND + REST_SECONDS - roundSeconds,
                     )
-                  : secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
+                  : Time.secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
               </div>
             </CircularIndicator>
           </div>
