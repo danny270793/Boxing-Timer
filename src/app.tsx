@@ -81,7 +81,7 @@ export function App() {
             percentage={roundPercentage}
             background={isInRest ? '#f44336' : '#4caf50'}
           >
-            {secondsToMMSS(roundSeconds)}
+            <div className="w3-xxxlarge">{secondsToMMSS(roundSeconds)}</div>
           </CircularIndicator>
         </div>
       </div>
