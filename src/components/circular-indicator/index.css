@@ -14,7 +14,7 @@
 
 /* inside circle */
 .circular-progress-children {
-  background: var(--background-color);
+  /* background: var(--background-color); */
   aspect-ratio: 1 / 1;
   width: min(70vw, 70vh);
   border-radius: 50%;
