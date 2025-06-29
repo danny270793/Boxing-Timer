@@ -90,10 +90,7 @@ export function App() {
   }
 
   return (
-    <div
-      className={isInRest ? 'w3-orange' : 'w3-green'}
-      style={{ height: '100vh' }}
-    >
+    <div className={isInRest ? 'w3-orange' : 'w3-green'}>
       <div className="w3-container">
         <div>
           <h1 className="w3-center">
@@ -105,7 +102,8 @@ export function App() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: 'calc(100vh - 150px)',
+            height:
+              'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 150px)',
           }}
         >
           <div
