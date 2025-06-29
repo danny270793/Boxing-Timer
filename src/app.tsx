@@ -69,7 +69,7 @@ export function App() {
 
   return (
     <div
-      className={isInRest ? 'w3-red' : 'w3-green'}
+      className={isInRest ? 'w3-orange' : 'w3-green'}
       style={{ height: '100vh' }}
     >
       <div className="w3-container">
@@ -81,7 +81,7 @@ export function App() {
         <div style={{ aspectRatio: '1/1' }}>
           <CircularIndicator
             percentage={roundPercentage}
-            background={isInRest ? '#f44336' : '#4caf50'}
+            background={isInRest ? '#ff9800' : '#4caf50'}
           >
             <div className="w3-xxxlarge">{secondsToMMSS(roundSeconds)}</div>
           </CircularIndicator>
