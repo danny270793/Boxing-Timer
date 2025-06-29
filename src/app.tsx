@@ -7,8 +7,8 @@ import TenSecondsLeft from './assets/10-seconds-left.mp3'
 import { Time } from './utils/time'
 import { StatusBar } from './utils/status-bar'
 
-const SECONDS_BY_ROUND: number = 30
-const REST_SECONDS: number = 15
+const SECONDS_BY_ROUND: number = Time.minutesInSeconds(3)
+const REST_SECONDS: number = Time.minutesInSeconds(1)
 const ROUNDS: number = 12
 
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
@@ -90,10 +90,7 @@ export function App() {
   }
 
   return (
-    <div
-      className={isInRest ? 'w3-orange' : 'w3-green'}
-      style={{ height: '100vh' }}
-    >
+    <div className={isInRest ? 'w3-orange' : 'w3-green'}>
       <div className="w3-container">
         <div>
           <h1 className="w3-center">
@@ -105,7 +102,8 @@ export function App() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: 'calc(100vh - 150px)',
+            height:
+              'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 135px)',
           }}
         >
           <div
