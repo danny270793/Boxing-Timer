@@ -103,7 +103,7 @@ export function App() {
             justifyContent: 'center',
             alignItems: 'center',
             height:
-              'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 150px)',
+              'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 135px)',
           }}
         >
           <div
