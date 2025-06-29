@@ -3,6 +3,7 @@ import './index.css'
 
 interface CircularIndicatorProps {
   percentage: number
+  background?: string
   children?: ReactNode
 }
 
@@ -17,7 +18,12 @@ export const CircularIndicator: FC<CircularIndicatorProps> = (
           '--percentage': props.percentage,
         }}
       >
-        <div className="circular-progress-children">{props.children}</div>
+        <div
+          className="circular-progress-children"
+          style={{ background: props.background }}
+        >
+          {props.children}
+        </div>
       </div>
     </div>
   )
