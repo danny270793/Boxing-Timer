@@ -4,16 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import Bell from './assets/boxing-bell.mp3'
 import TenSecondsLeft from './assets/10-seconds-left.mp3'
-
-const secondsToMMSS = (seconds: number): string => {
-  const minutes: number = Math.floor(seconds / 60)
-  const remainingSeconds: number = seconds % 60
-  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
-    .toString()
-    .padStart(2, '0')}`
-}
-
-const minutesInSeconds = (minutes: number): number => minutes * 60
+import { Time } from './utils/time'
 
 const SECONDS_BY_ROUND: number = 30
 const REST_SECONDS: number = 15
@@ -66,23 +57,31 @@ export function App() {
     setState('PAUSED')
   }
 
-  // const seconds = 31
-
   const rounds: number =
     Math.floor(seconds / (SECONDS_BY_ROUND + REST_SECONDS)) + 1
   const lastRoundSeconds: number =
     (rounds - 1) * (SECONDS_BY_ROUND + REST_SECONDS)
   const roundSeconds: number = seconds - lastRoundSeconds
   const isInRest: boolean = roundSeconds > SECONDS_BY_ROUND
+  const restSeconds: number = roundSeconds - SECONDS_BY_ROUND
   const roundPercentage: number = (roundSeconds / SECONDS_BY_ROUND) * 100
-  if (roundSeconds === SECONDS_BY_ROUND || roundSeconds === 0) {
-    bellRef.current.currentTime = 0
-    bellRef.current.play()
-  }
+  const restPercentage: number = (restSeconds / REST_SECONDS) * 100
 
-  if (roundSeconds === SECONDS_BY_ROUND - 10) {
-    tenSecondsLeftRef.current.currentTime = 0
-    tenSecondsLeftRef.current.play()
+  if (state === 'RUNNING') {
+    if (roundSeconds === SECONDS_BY_ROUND || roundSeconds === 0) {
+      bellRef.current.currentTime = 0
+      bellRef.current.play()
+    }
+
+    if (roundSeconds === SECONDS_BY_ROUND - 10) {
+      tenSecondsLeftRef.current.currentTime = 0
+      tenSecondsLeftRef.current.play()
+    }
+
+    if (restSeconds === REST_SECONDS - 10) {
+      tenSecondsLeftRef.current.currentTime = 0
+      tenSecondsLeftRef.current.play()
+    }
   }
 
   return (
@@ -96,17 +95,32 @@ export function App() {
             Round {rounds} of {ROUNDS}
           </h1>
         </div>
-        <div style={{ aspectRatio: '1/1' }}>
-          <CircularIndicator
-            percentage={roundPercentage}
-            background={isInRest ? '#ff9800' : '#4caf50'}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 'calc(100vh - 150px)',
+          }}
+        >
+          <div
+            style={{
+              aspectRatio: '1/1',
+            }}
           >
-            <div className="w3-xxxlarge">
-              {SECONDS_BY_ROUND - roundSeconds < 0
-                ? secondsToMMSS(SECONDS_BY_ROUND + REST_SECONDS - roundSeconds)
-                : secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
-            </div>
-          </CircularIndicator>
+            <CircularIndicator
+              percentage={isInRest ? restPercentage : roundPercentage}
+              background={isInRest ? '#ff9800' : '#4caf50'}
+            >
+              <div className="w3-xxxlarge">
+                {isInRest
+                  ? Time.secondsToMMSS(
+                      SECONDS_BY_ROUND + REST_SECONDS - roundSeconds,
+                    )
+                  : Time.secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
+              </div>
+            </CircularIndicator>
+          </div>
         </div>
       </div>
       <div className="w3-bottom">
