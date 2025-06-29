@@ -1,8 +1,22 @@
 :root {
-  --background-color: #ffffff;
   --accent-color: #3498db;
 }
 
+body {
+  background-color: var(--accent-color);
+}
+
 #app {
-  background-color: var(--background-color);
+  min-height: calc(
+    100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+  );
+
+  margin-top: env(safe-area-inset-top);
+  margin-bottom: env(safe-area-inset-bottom);
+  margin-left: env(safe-area-inset-left);
+  margin-right: env(safe-area-inset-right);
+}
+
+.w3-bottom {
+  bottom: env(safe-area-inset-bottom) !important;
 }
