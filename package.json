@@ -19,6 +19,7 @@
     "@capacitor/core": "^6.2.1",
     "@capacitor/ios": "^6.2.1",
     "@capacitor/status-bar": "^6.0.2",
+    "@danny270793/w3css": "^0.0.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
