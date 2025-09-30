@@ -23,7 +23,7 @@ export function App() {
   const [seconds, setSeconds] = useState<number>(0)
 
   useEffect(() => {
-    StatusBar.backgroundColorByHexString('#2196f3')
+    StatusBar.backgroundColorByHexString('#667eea')
   }, [])
 
   useEffect(() => {
@@ -89,70 +89,83 @@ export function App() {
     }
   }
 
+  const getStateClass = () => {
+    if (state === 'RUNNING') {
+      return isInRest ? 'rest-active' : 'round-active'
+    }
+    if (state === 'PAUSED') return 'paused'
+    return 'stopped'
+  }
+
+  const getStatusText = () => {
+    if (state === 'FINISHED') return 'Workout Complete!'
+    if (state === 'PAUSED') return 'Paused'
+    if (isInRest) return 'Rest Time'
+    return 'Round Active'
+  }
+
   return (
-    <div className={isInRest ? 'w3-orange' : 'w3-green'}>
-      <div className="w3-container">
-        <div>
-          <h1 className="w3-center">
+    <div className="app-container">
+      {/* Header */}
+      <div className="app-header animate-fade-in">
+        <div className="round-info">
+          <h1 className="round-title">
             Round {rounds} of {ROUNDS}
           </h1>
+          <div className={`status-badge ${getStateClass()}`}>
+            {getStatusText()}
+          </div>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height:
-              'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 135px)',
-          }}
-        >
-          <div
-            style={{
-              aspectRatio: '1/1',
-            }}
+      </div>
+
+      {/* Main Timer Area */}
+      <div className="timer-container">
+        <div className="timer-wrapper">
+          <CircularIndicator
+            percentage={isInRest ? restPercentage : roundPercentage}
+            className={getStateClass()}
           >
-            <CircularIndicator
-              percentage={isInRest ? restPercentage : roundPercentage}
-              background={isInRest ? '#ff9800' : '#4caf50'}
-            >
-              <div className="w3-xxxlarge">
+            <div className="timer-content">
+              <div className="timer-text">
                 {isInRest
                   ? Time.secondsToMMSS(
                       SECONDS_BY_ROUND + REST_SECONDS - roundSeconds,
                     )
                   : Time.secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
               </div>
-            </CircularIndicator>
-          </div>
+              <div className="round-text">{isInRest ? 'Rest' : 'Round'}</div>
+            </div>
+          </CircularIndicator>
         </div>
       </div>
-      <div className="w3-bottom">
+
+      {/* Control Buttons */}
+      <div className="controls-container">
         {state !== 'RUNNING' && (
           <button
-            className="w3-button w3-blue w3-block"
+            className="control-button primary-button animate-slide-in"
             onClick={onStartClicked}
           >
-            <FontAwesomeIcon className="w3-xxxlarge" icon={faPlay} />
+            <FontAwesomeIcon icon={faPlay} />
+            <span>Start</span>
           </button>
         )}
         {state === 'RUNNING' && (
-          <div className="w3-row">
-            <div className="w3-col" style={{ width: '50%' }}>
-              <button
-                className="w3-button w3-blue w3-block"
-                onClick={onPauseClicked}
-              >
-                <FontAwesomeIcon className="w3-xxxlarge" icon={faPause} />
-              </button>
-            </div>
-            <div className="w3-col" style={{ width: '50%' }}>
-              <button
-                className="w3-button w3-red w3-block"
-                onClick={onStopClicked}
-              >
-                <FontAwesomeIcon className="w3-xxxlarge" icon={faStop} />
-              </button>
-            </div>
+          <div className="control-row animate-slide-in">
+            <button
+              className="control-button secondary-button"
+              onClick={onPauseClicked}
+            >
+              <FontAwesomeIcon icon={faPause} />
+              <span>Pause</span>
+            </button>
+            <button
+              className="control-button danger-button"
+              onClick={onStopClicked}
+            >
+              <FontAwesomeIcon icon={faStop} />
+              <span>Stop</span>
+            </button>
           </div>
         )}
       </div>
