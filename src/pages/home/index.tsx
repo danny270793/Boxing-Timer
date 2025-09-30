@@ -29,7 +29,8 @@ export const HomePage = () => {
     new Audio(TenSecondsLeft),
   )
 
-  const { timerState, updateTimerState, clearTimerState, getElapsedSeconds } = useLocalStorage()
+  const { timerState, updateTimerState, clearTimerState, getElapsedSeconds } =
+    useLocalStorage()
   const [state, setState] = useState<State>(timerState.state)
   const [seconds, setSeconds] = useState<number>(timerState.seconds)
 
@@ -49,12 +50,15 @@ export const HomePage = () => {
       const interval = setInterval(() => {
         const elapsedSeconds = getElapsedSeconds()
         setSeconds(elapsedSeconds)
-        
+
         // Update localStorage with current progress
         updateTimerState({ seconds: elapsedSeconds })
-        
+
         // Check if workout is complete
-        if (elapsedSeconds >= ROUNDS * SECONDS_BY_ROUND + ROUNDS * REST_SECONDS) {
+        if (
+          elapsedSeconds >=
+          ROUNDS * SECONDS_BY_ROUND + ROUNDS * REST_SECONDS
+        ) {
           clearInterval(interval)
           setState('FINISHED')
           updateTimerState({ state: 'FINISHED', seconds: 0 })
