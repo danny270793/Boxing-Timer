@@ -76,57 +76,59 @@ export const SettingsPage = () => {
           <div className="settings-section-content">
             {/* Language Selector */}
             <div className="language-selector">
-            <button
-              className="language-selected-card"
-              onClick={toggleLanguageOptions}
-            >
-              <div className="language-option-content">
-                <span className="language-flag">{selectedLanguage.flag}</span>
-                <div className="language-info">
-                  <span className="language-native-name">
-                    {selectedLanguage.nativeName}
-                  </span>
-                  <span className="language-english-name">
-                    {selectedLanguage.name}
+              <button
+                className="language-selected-card"
+                onClick={toggleLanguageOptions}
+              >
+                <div className="language-option-content">
+                  <span className="language-flag">{selectedLanguage.flag}</span>
+                  <div className="language-info">
+                    <span className="language-native-name">
+                      {selectedLanguage.nativeName}
+                    </span>
+                    <span className="language-english-name">
+                      {selectedLanguage.name}
+                    </span>
+                  </div>
+                  <span
+                    className={`language-toggle-arrow ${showLanguageOptions ? 'open' : ''}`}
+                  >
+                    ▼
                   </span>
                 </div>
-                <span
-                  className={`language-toggle-arrow ${showLanguageOptions ? 'open' : ''}`}
-                >
-                  ▼
-                </span>
-              </div>
-            </button>
+              </button>
 
-            {/* Language Options Dropdown */}
-            {showLanguageOptions && (
-              <div className="language-options-dropdown">
-                {SUPPORTED_LANGUAGES.map((language) => (
-                  <button
-                    key={language.code}
-                    className={`language-option-item ${
-                      selectedLanguage.code === language.code ? 'selected' : ''
-                    }`}
-                    onClick={() => changeLanguage(language)}
-                  >
-                    <div className="language-option-content">
-                      <span className="language-flag">{language.flag}</span>
-                      <div className="language-info">
-                        <span className="language-native-name">
-                          {language.nativeName}
-                        </span>
-                        <span className="language-english-name">
-                          {language.name}
-                        </span>
+              {/* Language Options Dropdown */}
+              {showLanguageOptions && (
+                <div className="language-options-dropdown">
+                  {SUPPORTED_LANGUAGES.map((language) => (
+                    <button
+                      key={language.code}
+                      className={`language-option-item ${
+                        selectedLanguage.code === language.code
+                          ? 'selected'
+                          : ''
+                      }`}
+                      onClick={() => changeLanguage(language)}
+                    >
+                      <div className="language-option-content">
+                        <span className="language-flag">{language.flag}</span>
+                        <div className="language-info">
+                          <span className="language-native-name">
+                            {language.nativeName}
+                          </span>
+                          <span className="language-english-name">
+                            {language.name}
+                          </span>
+                        </div>
+                        {selectedLanguage.code === language.code && (
+                          <div className="selected-indicator">✓</div>
+                        )}
                       </div>
-                      {selectedLanguage.code === language.code && (
-                        <div className="selected-indicator">✓</div>
-                      )}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -149,7 +151,9 @@ export const SettingsPage = () => {
                   <span>📱</span>
                 </div>
                 <div className="app-info-content">
-                  <span className="app-info-label">{t('settings.appName')}</span>
+                  <span className="app-info-label">
+                    {t('settings.appName')}
+                  </span>
                   <span className="app-info-value">{t('app.title')}</span>
                 </div>
               </div>
@@ -158,7 +162,9 @@ export const SettingsPage = () => {
                   <span>🔢</span>
                 </div>
                 <div className="app-info-content">
-                  <span className="app-info-label">{t('settings.version')}</span>
+                  <span className="app-info-label">
+                    {t('settings.version')}
+                  </span>
                   <span className="app-info-value">1.0.0</span>
                 </div>
               </div>
