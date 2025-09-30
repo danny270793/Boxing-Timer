@@ -179,7 +179,11 @@ export const SettingsPage = () => {
         </div>
 
         {/* Licenses Section */}
-        <div className="settings-section">
+        <button
+          className="settings-section clickable-section"
+          onClick={handleLicensesClick}
+          aria-label="View open source licenses"
+        >
           <div className="settings-section-header">
             <div className="section-icon">
               <FontAwesomeIcon icon={faFileText} />
@@ -188,27 +192,11 @@ export const SettingsPage = () => {
               <h3>Open Source Licenses</h3>
               <p>View third-party library licenses</p>
             </div>
+            <div className="section-action">
+              <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </div>
           </div>
-          <div className="settings-section-content">
-            <button
-              className="licenses-link-button"
-              onClick={handleLicensesClick}
-            >
-              <div className="licenses-link-content">
-                <div className="licenses-link-info">
-                  <span className="licenses-link-title">View Licenses</span>
-                  <span className="licenses-link-description">
-                    See all open source libraries and their licenses
-                  </span>
-                </div>
-                <FontAwesomeIcon
-                  icon={faExternalLinkAlt}
-                  className="licenses-link-icon"
-                />
-              </div>
-            </button>
-          </div>
-        </div>
+        </button>
       </div>
     </div>
   )
