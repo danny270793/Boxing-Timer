@@ -2,10 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faShieldAlt } from '@fortawesome/free-solid-svg-icons'
+import { useScrollToTop } from '../../hooks/useScrollToTop'
 
 export const PrivacyPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+
+  // Scroll to top on navigation
+  useScrollToTop()
 
   const handleBack = () => {
     navigate('/settings')

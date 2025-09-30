@@ -12,6 +12,7 @@ import {
   faFileContract,
 } from '@fortawesome/free-solid-svg-icons'
 import { SUPPORTED_LANGUAGES, type Language } from '../../i18n/types'
+import { useScrollToTop } from '../../hooks/useScrollToTop'
 
 export const SettingsPage = () => {
   const { i18n, t } = useTranslation()
@@ -21,6 +22,9 @@ export const SettingsPage = () => {
       SUPPORTED_LANGUAGES[0],
   )
   const [showLanguageOptions, setShowLanguageOptions] = useState(false)
+
+  // Scroll to top on navigation
+  useScrollToTop()
 
   // Update selected language when i18n language changes
   useEffect(() => {

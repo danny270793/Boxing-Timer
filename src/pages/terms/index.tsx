@@ -1,9 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faFileContract } from '@fortawesome/free-solid-svg-icons'
+import { useScrollToTop } from '../../hooks/useScrollToTop'
 
 export const TermsPage = () => {
   const navigate = useNavigate()
+
+  // Scroll to top on navigation
+  useScrollToTop()
 
   const handleBack = () => {
     navigate('/settings')
