@@ -8,6 +8,8 @@ import {
   faLanguage,
   faFileText,
   faExternalLinkAlt,
+  faShieldAlt,
+  faFileContract,
 } from '@fortawesome/free-solid-svg-icons'
 import { SUPPORTED_LANGUAGES, type Language } from '../../i18n/types'
 
@@ -46,6 +48,14 @@ export const SettingsPage = () => {
 
   const handleLicensesClick = () => {
     navigate('/licenses')
+  }
+
+  const handlePrivacyClick = () => {
+    navigate('/privacy')
+  }
+
+  const handleTermsClick = () => {
+    navigate('/terms')
   }
 
   return (
@@ -191,6 +201,46 @@ export const SettingsPage = () => {
             <div className="section-title">
               <h3>Open Source Licenses</h3>
               <p>View third-party library licenses</p>
+            </div>
+            <div className="section-action">
+              <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </div>
+          </div>
+        </button>
+
+        {/* Privacy Policy Section */}
+        <button
+          className="settings-section clickable-section"
+          onClick={handlePrivacyClick}
+          aria-label="View privacy policy"
+        >
+          <div className="settings-section-header">
+            <div className="section-icon">
+              <FontAwesomeIcon icon={faShieldAlt} />
+            </div>
+            <div className="section-title">
+              <h3>Privacy Policy</h3>
+              <p>How we collect, use, and protect your information</p>
+            </div>
+            <div className="section-action">
+              <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </div>
+          </div>
+        </button>
+
+        {/* Terms and Conditions Section */}
+        <button
+          className="settings-section clickable-section"
+          onClick={handleTermsClick}
+          aria-label="View terms and conditions"
+        >
+          <div className="settings-section-header">
+            <div className="section-icon">
+              <FontAwesomeIcon icon={faFileContract} />
+            </div>
+            <div className="section-title">
+              <h3>Terms and Conditions</h3>
+              <p>Terms of use for the Boxing Timer application</p>
             </div>
             <div className="section-action">
               <FontAwesomeIcon icon={faExternalLinkAlt} />
