@@ -533,6 +533,58 @@ body {
   z-index: 10;
 }
 
+.settings-section.clickable-section {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-large);
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 2.5rem;
+}
+
+.settings-section.clickable-section:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-large);
+}
+
+.section-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(102, 126, 234, 0.2);
+  border-radius: 50%;
+  color: var(--text-light);
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.settings-section.clickable-section:hover .section-action {
+  background: rgba(102, 126, 234, 0.3);
+  transform: scale(1.1);
+}
+
+.settings-section.clickable-section:focus {
+  outline: 2px solid rgba(102, 126, 234, 0.5);
+  outline-offset: 2px;
+}
+
+.settings-section.clickable-section:focus .section-action {
+  background: rgba(102, 126, 234, 0.3);
+  transform: scale(1.1);
+}
+
 .settings-section:last-child {
   margin-bottom: 0;
 }
@@ -1052,53 +1104,6 @@ body {
   text-align: center;
 }
 
-/* Licenses Link Button */
-.licenses-link-button {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: var(--border-radius);
-  padding: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: left;
-}
-
-.licenses-link-button:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-light);
-}
-
-.licenses-link-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.licenses-link-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.licenses-link-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.licenses-link-description {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.licenses-link-icon {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
 @media (max-width: 480px) {
   .settings-page-header {
     padding: 1.5rem 1rem 1rem;
@@ -1146,6 +1151,12 @@ body {
 
   .section-title p {
     font-size: 0.8rem;
+  }
+
+  .section-action {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
   }
 
   .settings-overlay {
