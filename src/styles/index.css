@@ -488,23 +488,27 @@ body {
 }
 
 .settings-back-button {
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: rgba(102, 126, 234, 0.1);
-  color: var(--text-primary);
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  font-size: 1rem;
+  color: var(--text-light);
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
 }
 
 .settings-back-button:hover {
-  background: rgba(102, 126, 234, 0.2);
-  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
 }
 
 .settings-content {
@@ -537,28 +541,29 @@ body {
 .section-icon {
   width: 48px;
   height: 48px;
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(102, 126, 234, 0.3);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  color: var(--text-primary);
+  color: var(--text-light);
   flex-shrink: 0;
+  border: 1px solid rgba(102, 126, 234, 0.5);
 }
 
 .section-title h3 {
   margin: 0;
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-light);
   margin-bottom: 0.25rem;
 }
 
 .section-title p {
   margin: 0;
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
 }
 
@@ -1091,6 +1096,12 @@ body {
   .settings-page-header {
     padding: 1.5rem 1rem 1rem;
     gap: 1rem;
+  }
+
+  .settings-back-button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
   }
 
   .settings-page-content {
