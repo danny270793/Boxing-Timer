@@ -507,15 +507,6 @@ body {
   transform: scale(1.05);
 }
 
-.settings-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
 .settings-content {
   padding: 1.5rem;
   overflow-y: auto;
@@ -810,10 +801,22 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  background:
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(120, 119, 198, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 119, 198, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(120, 219, 255, 0.2) 0%,
+      transparent 50%
+    );
   z-index: 0;
 }
 
@@ -828,6 +831,30 @@ body {
   gap: 1.5rem;
   padding: 2rem 1.5rem 1.5rem;
   background: transparent;
+}
+
+.licenses-back-button {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: var(--text-light);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.licenses-back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
 }
 
 .licenses-page-content {
@@ -898,17 +925,17 @@ body {
 }
 
 .license-item {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: var(--border-radius-large);
   padding: 1.5rem;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: var(--shadow-medium);
   transition: all 0.2s ease;
 }
 
 .license-item:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
   box-shadow: var(--shadow-large);
 }
@@ -930,28 +957,28 @@ body {
   margin: 0;
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-light);
 }
 
 .license-version {
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
 }
 
 .license-badge {
-  background: rgba(102, 126, 234, 0.2);
-  color: var(--text-primary);
+  background: rgba(102, 126, 234, 0.3);
+  color: var(--text-light);
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
   font-size: 0.9rem;
   font-weight: 600;
-  border: 1px solid rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(102, 126, 234, 0.5);
 }
 
 .license-description {
   margin: 0 0 1rem 0;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
   line-height: 1.5;
 }
@@ -970,7 +997,7 @@ body {
 
 .license-copyright span {
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-style: italic;
 }
 
@@ -978,21 +1005,22 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: rgba(102, 126, 234, 0.9);
+  color: var(--text-light);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 600;
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
-  background: rgba(102, 126, 234, 0.1);
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  background: rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(102, 126, 234, 0.5);
   transition: all 0.2s ease;
 }
 
 .license-link:hover {
-  background: rgba(102, 126, 234, 0.2);
-  color: rgba(102, 126, 234, 1);
+  background: rgba(102, 126, 234, 0.5);
+  color: var(--text-light);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
 }
 
 .licenses-footer {
@@ -1111,46 +1139,52 @@ body {
     padding: 1.5rem 1rem 1rem;
     gap: 1rem;
   }
-  
+
+  .licenses-back-button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
   .licenses-page-content {
     padding: 0 1rem 1.5rem;
   }
-  
+
   .licenses-title-icon {
     width: 50px;
     height: 50px;
     font-size: 1.3rem;
   }
-  
+
   .licenses-title-text h1 {
     font-size: 1.5rem;
   }
-  
+
   .licenses-title-text p {
     font-size: 0.9rem;
   }
-  
+
   .licenses-intro {
     padding: 1rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .license-item {
     padding: 1rem;
   }
-  
+
   .license-header {
     flex-direction: column;
     gap: 0.75rem;
     align-items: flex-start;
   }
-  
+
   .license-footer {
     flex-direction: column;
     gap: 0.75rem;
     align-items: flex-start;
   }
-  
+
   .license-link {
     align-self: flex-start;
   }
