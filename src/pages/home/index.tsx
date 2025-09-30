@@ -14,6 +14,7 @@ import TenSecondsLeft from '../../assets/10-seconds-left.mp3'
 import { Time } from '../../utils/time'
 import { StatusBar } from '../../utils/status-bar'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
+import { useScrollToTop } from '../../hooks/useScrollToTop'
 
 const SECONDS_BY_ROUND: number = Time.minutesInSeconds(3)
 const REST_SECONDS: number = Time.minutesInSeconds(1)
@@ -33,6 +34,9 @@ export const HomePage = () => {
     useLocalStorage()
   const [state, setState] = useState<State>(timerState.state)
   const [seconds, setSeconds] = useState<number>(timerState.seconds)
+
+  // Scroll to top on navigation
+  useScrollToTop()
 
   useEffect(() => {
     StatusBar.backgroundColorByHexString('#667eea')
