@@ -1,8 +1,14 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faFileText, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowLeft,
+  faFileText,
+  faExternalLinkAlt,
+} from '@fortawesome/free-solid-svg-icons'
 
 export const LicensesPage = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const handleBack = () => {
@@ -16,7 +22,7 @@ export const LicensesPage = () => {
       license: 'MIT',
       description: 'A JavaScript library for building user interfaces',
       url: 'https://reactjs.org/',
-      copyright: 'Copyright (c) Meta Platforms, Inc. and affiliates.'
+      copyright: 'Copyright (c) Meta Platforms, Inc. and affiliates.',
     },
     {
       name: 'Preact',
@@ -24,7 +30,7 @@ export const LicensesPage = () => {
       license: 'MIT',
       description: 'Fast 3kB alternative to React with the same modern API',
       url: 'https://preactjs.com/',
-      copyright: 'Copyright (c) 2015-present Jason Miller'
+      copyright: 'Copyright (c) 2015-present Jason Miller',
     },
     {
       name: 'React Router DOM',
@@ -32,7 +38,7 @@ export const LicensesPage = () => {
       license: 'MIT',
       description: 'Declarative routing for React',
       url: 'https://reactrouter.com/',
-      copyright: 'Copyright (c) React Training'
+      copyright: 'Copyright (c) React Training',
     },
     {
       name: 'i18next',
@@ -40,7 +46,7 @@ export const LicensesPage = () => {
       license: 'MIT',
       description: 'Internationalization framework for JavaScript',
       url: 'https://www.i18next.com/',
-      copyright: 'Copyright (c) i18next'
+      copyright: 'Copyright (c) i18next',
     },
     {
       name: 'react-i18next',
@@ -48,15 +54,15 @@ export const LicensesPage = () => {
       license: 'MIT',
       description: 'React integration for i18next',
       url: 'https://react.i18next.com/',
-      copyright: 'Copyright (c) i18next'
+      copyright: 'Copyright (c) i18next',
     },
     {
       name: 'Font Awesome',
       version: '6.7.2',
       license: 'Font Awesome Free License',
-      description: 'The web\'s most popular icon set and toolkit',
+      description: "The web's most popular icon set and toolkit",
       url: 'https://fontawesome.com/',
-      copyright: 'Copyright (c) Fonticons, Inc.'
+      copyright: 'Copyright (c) Fonticons, Inc.',
     },
     {
       name: 'Vite',
@@ -64,7 +70,7 @@ export const LicensesPage = () => {
       license: 'MIT',
       description: 'Next generation frontend tooling',
       url: 'https://vitejs.dev/',
-      copyright: 'Copyright (c) 2019-present Evan You'
+      copyright: 'Copyright (c) 2019-present Evan You',
     },
     {
       name: 'TypeScript',
@@ -72,7 +78,7 @@ export const LicensesPage = () => {
       license: 'Apache-2.0',
       description: 'JavaScript with syntax for types',
       url: 'https://www.typescriptlang.org/',
-      copyright: 'Copyright (c) Microsoft Corporation'
+      copyright: 'Copyright (c) Microsoft Corporation',
     },
     {
       name: 'Capacitor',
@@ -80,8 +86,8 @@ export const LicensesPage = () => {
       license: 'MIT',
       description: 'Cross-platform native runtime for web apps',
       url: 'https://capacitorjs.com/',
-      copyright: 'Copyright (c) 2017-present Drifty Co.'
-    }
+      copyright: 'Copyright (c) 2017-present Drifty Co.',
+    },
   ]
 
   return (
@@ -96,8 +102,8 @@ export const LicensesPage = () => {
             <FontAwesomeIcon icon={faFileText} />
           </div>
           <div className="licenses-title-text">
-            <h1>Open Source Licenses</h1>
-            <p>Third-party libraries and their licenses</p>
+            <h1>{t('licenses.title')}</h1>
+            <p>{t('licenses.subtitle')}</p>
           </div>
         </div>
       </div>
@@ -105,15 +111,12 @@ export const LicensesPage = () => {
       {/* Content */}
       <div className="licenses-page-content">
         <div className="licenses-intro">
-          <p>
-            This application uses several open source libraries. We are grateful to the developers 
-            who have contributed to these projects. Below are the licenses for the libraries used:
-          </p>
+          <p>{t('licenses.intro')}</p>
         </div>
 
         <div className="licenses-list">
-          {licenses.map((license, index) => (
-            <div key={index} className="license-item">
+          {licenses.map((license) => (
+            <div key={license.name} className="license-item">
               <div className="license-header">
                 <div className="license-name-section">
                   <h3 className="license-name">{license.name}</h3>
@@ -123,21 +126,21 @@ export const LicensesPage = () => {
                   <span className="license-type">{license.license}</span>
                 </div>
               </div>
-              
+
               <p className="license-description">{license.description}</p>
-              
+
               <div className="license-footer">
                 <div className="license-copyright">
                   <span>{license.copyright}</span>
                 </div>
-                <a 
-                  href={license.url} 
-                  target="_blank" 
+                <a
+                  href={license.url}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="license-link"
                 >
                   <FontAwesomeIcon icon={faExternalLinkAlt} />
-                  <span>Visit Website</span>
+                  <span>{t('licenses.visitWebsite')}</span>
                 </a>
               </div>
             </div>
@@ -145,10 +148,7 @@ export const LicensesPage = () => {
         </div>
 
         <div className="licenses-footer">
-          <p>
-            This application is open source and available under the MIT License. 
-            You can find the source code and contribute at our GitHub repository.
-          </p>
+          <p>{t('licenses.footer')}</p>
         </div>
       </div>
     </div>
