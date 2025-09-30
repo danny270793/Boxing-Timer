@@ -1,8 +1,25 @@
 {
-  "name": "io.github.danny270793.boxingtimer",
-  "private": true,
-  "version": "0.0.0",
+  "name": "boxing-timer",
+  "description": "A modern, responsive boxing timer application with beautiful UI and cross-platform support",
+  "version": "1.0.0",
   "type": "module",
+  "license": "MIT",
+  "author": "Boxing Timer Team",
+  "homepage": "https://github.com/yourusername/boxing-timer#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/boxing-timer.git"
+  },
+  "keywords": [
+    "boxing",
+    "timer",
+    "workout",
+    "fitness",
+    "preact",
+    "typescript",
+    "mobile",
+    "pwa"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
