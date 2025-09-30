@@ -388,53 +388,57 @@ body {
   }
 }
 
-/* Settings Screen */
-.settings-overlay {
-  position: fixed;
+/* Settings Page */
+.settings-page {
+  min-height: 100vh;
+  background: var(--primary-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.settings-page::before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
-  z-index: 2000;
+  background:
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(120, 119, 198, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 119, 198, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(120, 219, 255, 0.2) 0%,
+      transparent 50%
+    );
+  z-index: 0;
+}
+
+.settings-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.settings-page-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  animation: overlayFadeIn 0.3s ease-out;
+  gap: 1rem;
+  padding: 2rem 1.5rem 1rem;
+  background: transparent;
 }
 
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.settings-container {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: var(--border-radius-large);
-  box-shadow: var(--shadow-large);
-  width: 100%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow: hidden;
-  animation: settingsSlideIn 0.3s ease-out;
-}
-
-@keyframes settingsSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.settings-page-content {
+  padding: 0 1.5rem 2rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .settings-header {
@@ -610,6 +614,14 @@ body {
 }
 
 @media (max-width: 480px) {
+  .settings-page-header {
+    padding: 1.5rem 1rem 0.5rem;
+  }
+
+  .settings-page-content {
+    padding: 0 1rem 1.5rem;
+  }
+
   .settings-overlay {
     padding: 0.5rem;
   }
