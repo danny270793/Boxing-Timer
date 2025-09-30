@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faShieldAlt } from '@fortawesome/free-solid-svg-icons'
 
 export const PrivacyPage = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const handleBack = () => {
@@ -21,8 +23,8 @@ export const PrivacyPage = () => {
             <FontAwesomeIcon icon={faShieldAlt} />
           </div>
           <div className="legal-title-text">
-            <h1>Privacy Policy</h1>
-            <p>How we collect, use, and protect your information</p>
+            <h1>{t('privacy.title')}</h1>
+            <p>{t('privacy.subtitle')}</p>
           </div>
         </div>
       </div>
@@ -30,18 +32,16 @@ export const PrivacyPage = () => {
       {/* Content */}
       <div className="legal-page-content">
         <div className="legal-intro">
+          <p>{t('privacy.intro')}</p>
           <p>
-            This Privacy Policy describes how the Boxing Timer app collects,
-            uses, and protects your information when you use our application.
-          </p>
-          <p>
-            <strong>Last updated:</strong> {new Date().toLocaleDateString()}
+            <strong>{t('privacy.lastUpdated')}</strong>{' '}
+            {new Date().toLocaleDateString()}
           </p>
         </div>
 
         <div className="legal-sections">
           <section className="legal-section">
-            <h2>1. Information We Collect</h2>
+            <h2>{t('privacy.sections.informationWeCollect')}</h2>
             <div className="legal-content">
               <h3>1.1 Personal Information</h3>
               <p>
