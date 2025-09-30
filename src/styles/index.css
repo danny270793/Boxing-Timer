@@ -795,6 +795,270 @@ body {
   font-size: 1rem;
 }
 
+/* Licenses Page */
+.licenses-page {
+  min-height: 100vh;
+  background: var(--primary-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.licenses-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  z-index: 0;
+}
+
+.licenses-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.licenses-page-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem 1.5rem;
+  background: transparent;
+}
+
+.licenses-page-content {
+  padding: 0 1.5rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.licenses-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.licenses-title-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--text-light);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.licenses-title-text h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-light);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.02em;
+}
+
+.licenses-title-text p {
+  margin: 0.25rem 0 0 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.licenses-intro {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-large);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-medium);
+}
+
+.licenses-intro p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.licenses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.license-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-large);
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-medium);
+  transition: all 0.2s ease;
+}
+
+.license-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-large);
+}
+
+.license-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.license-name-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.license-name {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.license-version {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.license-badge {
+  background: rgba(102, 126, 234, 0.2);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.license-description {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.license-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.license-copyright {
+  flex: 1;
+}
+
+.license-copyright span {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.license-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(102, 126, 234, 0.9);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.2s ease;
+}
+
+.license-link:hover {
+  background: rgba(102, 126, 234, 0.2);
+  color: rgba(102, 126, 234, 1);
+  transform: translateY(-1px);
+}
+
+.licenses-footer {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-large);
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-medium);
+}
+
+.licenses-footer p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Licenses Link Button */
+.licenses-link-button {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.licenses-link-button:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-light);
+}
+
+.licenses-link-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.licenses-link-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.licenses-link-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.licenses-link-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.licenses-link-icon {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
 @media (max-width: 480px) {
   .settings-page-header {
     padding: 1.5rem 1rem 1rem;
@@ -840,6 +1104,55 @@ body {
 
   .settings-overlay {
     padding: 0.5rem;
+  }
+
+  /* Licenses Page Mobile */
+  .licenses-page-header {
+    padding: 1.5rem 1rem 1rem;
+    gap: 1rem;
+  }
+  
+  .licenses-page-content {
+    padding: 0 1rem 1.5rem;
+  }
+  
+  .licenses-title-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+  
+  .licenses-title-text h1 {
+    font-size: 1.5rem;
+  }
+  
+  .licenses-title-text p {
+    font-size: 0.9rem;
+  }
+  
+  .licenses-intro {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .license-item {
+    padding: 1rem;
+  }
+  
+  .license-header {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .license-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .license-link {
+    align-self: flex-start;
   }
 
   .settings-container {
