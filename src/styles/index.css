@@ -344,3 +344,50 @@ body {
     font-size: 0.8rem;
   }
 }
+
+/* Language Switcher */
+.language-switcher {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.lang-button {
+  padding: 0.5rem 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.lang-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.lang-button.active {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-medium);
+}
+
+@media (max-width: 480px) {
+  .language-switcher {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .lang-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
