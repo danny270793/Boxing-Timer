@@ -13,6 +13,7 @@ import Bell from '../../assets/boxing-bell.mp3'
 import TenSecondsLeft from '../../assets/10-seconds-left.mp3'
 import { Time } from '../../utils/time'
 import { StatusBar } from '../../utils/status-bar'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
 
 const SECONDS_BY_ROUND: number = Time.minutesInSeconds(3)
 const REST_SECONDS: number = Time.minutesInSeconds(1)
@@ -28,36 +29,48 @@ export const HomePage = () => {
     new Audio(TenSecondsLeft),
   )
 
-  const [state, setState] = useState<State>('STOPPED')
-  const [seconds, setSeconds] = useState<number>(0)
+  const { timerState, updateTimerState, clearTimerState, getElapsedSeconds } = useLocalStorage()
+  const [state, setState] = useState<State>(timerState.state)
+  const [seconds, setSeconds] = useState<number>(timerState.seconds)
 
   useEffect(() => {
     StatusBar.backgroundColorByHexString('#667eea')
   }, [])
 
+  // Sync local state with localStorage state
+  useEffect(() => {
+    setState(timerState.state)
+    setSeconds(timerState.seconds)
+  }, [timerState.state, timerState.seconds])
+
+  // Update seconds for running timers based on elapsed time
   useEffect(() => {
     if (state === 'RUNNING') {
-      const interval: NodeJS.Timeout = setInterval(() => {
-        setSeconds((prevSeconds: number) => {
-          if (
-            prevSeconds >=
-            ROUNDS * SECONDS_BY_ROUND + ROUNDS * REST_SECONDS
-          ) {
-            clearInterval(interval)
-            setState('FINISHED')
-            return 0
-          }
-          return prevSeconds + 1
-        })
+      const interval = setInterval(() => {
+        const elapsedSeconds = getElapsedSeconds()
+        setSeconds(elapsedSeconds)
+        
+        // Update localStorage with current progress
+        updateTimerState({ seconds: elapsedSeconds })
+        
+        // Check if workout is complete
+        if (elapsedSeconds >= ROUNDS * SECONDS_BY_ROUND + ROUNDS * REST_SECONDS) {
+          clearInterval(interval)
+          setState('FINISHED')
+          updateTimerState({ state: 'FINISHED', seconds: 0 })
+        }
       }, 1000)
 
       return () => clearInterval(interval)
     }
-  }, [state])
+  }, [state, getElapsedSeconds, updateTimerState])
 
   const onStartClicked = () => {
     if (state === 'FINISHED') {
       setSeconds(0)
+      updateTimerState({ state: 'RUNNING', seconds: 0 })
+    } else {
+      updateTimerState({ state: 'RUNNING' })
     }
     setState('RUNNING')
   }
@@ -65,10 +78,12 @@ export const HomePage = () => {
   const onStopClicked = () => {
     setSeconds(0)
     setState('STOPPED')
+    clearTimerState()
   }
 
   const onPauseClicked = () => {
     setState('PAUSED')
+    updateTimerState({ state: 'PAUSED' })
   }
 
   const handleSettingsClick = () => {
