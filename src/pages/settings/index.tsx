@@ -71,7 +71,7 @@ export const SettingsPage = () => {
           </div>
           <div className="settings-title-text">
             <h1>{t('settings.title')}</h1>
-            <p>Customize your experience</p>
+            <p>{t('app.customizeExperience')}</p>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@ export const SettingsPage = () => {
             </div>
             <div className="section-title">
               <h3>{t('settings.language')}</h3>
-              <p>Choose your preferred language</p>
+              <p>{t('app.chooseLanguage')}</p>
             </div>
           </div>
           <div className="settings-section-content">
@@ -157,7 +157,7 @@ export const SettingsPage = () => {
             </div>
             <div className="section-title">
               <h3>{t('settings.about')}</h3>
-              <p>App information and version details</p>
+              <p>{t('app.appInfoDescription')}</p>
             </div>
           </div>
           <div className="settings-section-content">
@@ -192,15 +192,15 @@ export const SettingsPage = () => {
         <button
           className="settings-section clickable-section"
           onClick={handleLicensesClick}
-          aria-label="View open source licenses"
+          aria-label={t('app.viewLicenses')}
         >
           <div className="settings-section-header">
             <div className="section-icon">
               <FontAwesomeIcon icon={faFileText} />
             </div>
             <div className="section-title">
-              <h3>Open Source Licenses</h3>
-              <p>View third-party library licenses</p>
+              <h3>{t('app.openSourceLicenses')}</h3>
+              <p>{t('app.viewLicenses')}</p>
             </div>
             <div className="section-action">
               <FontAwesomeIcon icon={faExternalLinkAlt} />
@@ -212,15 +212,15 @@ export const SettingsPage = () => {
         <button
           className="settings-section clickable-section"
           onClick={handlePrivacyClick}
-          aria-label="View privacy policy"
+          aria-label={t('app.viewPrivacy')}
         >
           <div className="settings-section-header">
             <div className="section-icon">
               <FontAwesomeIcon icon={faShieldAlt} />
             </div>
             <div className="section-title">
-              <h3>Privacy Policy</h3>
-              <p>How we collect, use, and protect your information</p>
+              <h3>{t('app.privacyPolicy')}</h3>
+              <p>{t('app.privacyDescription')}</p>
             </div>
             <div className="section-action">
               <FontAwesomeIcon icon={faExternalLinkAlt} />
@@ -232,15 +232,15 @@ export const SettingsPage = () => {
         <button
           className="settings-section clickable-section"
           onClick={handleTermsClick}
-          aria-label="View terms and conditions"
+          aria-label={t('app.viewTerms')}
         >
           <div className="settings-section-header">
             <div className="section-icon">
               <FontAwesomeIcon icon={faFileContract} />
             </div>
             <div className="section-title">
-              <h3>Terms and Conditions</h3>
-              <p>Terms of use for the Boxing Timer application</p>
+              <h3>{t('app.termsConditions')}</h3>
+              <p>{t('app.termsDescription')}</p>
             </div>
             <div className="section-action">
               <FontAwesomeIcon icon={faExternalLinkAlt} />
