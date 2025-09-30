@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type MutableRef } from 'preact/hooks'
+import { useTranslation } from 'react-i18next'
 import { CircularIndicator } from './components/circular-indicator'
+import { LanguageSwitcher } from './components/language-switcher'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import Bell from './assets/boxing-bell.mp3'
@@ -14,6 +16,7 @@ const ROUNDS: number = 12
 type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
 
 export function App() {
+  const { t } = useTranslation()
   const bellRef: MutableRef<HTMLAudioElement> = useRef(new Audio(Bell))
   const tenSecondsLeftRef: MutableRef<HTMLAudioElement> = useRef(
     new Audio(TenSecondsLeft),
@@ -98,19 +101,22 @@ export function App() {
   }
 
   const getStatusText = () => {
-    if (state === 'FINISHED') return 'Workout Complete!'
-    if (state === 'PAUSED') return 'Paused'
-    if (isInRest) return 'Rest Time'
-    return 'Round Active'
+    if (state === 'FINISHED') return t('app.workoutComplete')
+    if (state === 'PAUSED') return t('app.paused')
+    if (isInRest) return t('app.restTime')
+    return t('app.roundActive')
   }
 
   return (
     <div className="app-container">
+      {/* Language Switcher */}
+      <LanguageSwitcher />
+
       {/* Header */}
       <div className="app-header animate-fade-in">
         <div className="round-info">
           <h1 className="round-title">
-            Round {rounds} of {ROUNDS}
+            {t('app.round')} {rounds} {t('app.of')} {ROUNDS}
           </h1>
           <div className={`status-badge ${getStateClass()}`}>
             {getStatusText()}
@@ -133,7 +139,9 @@ export function App() {
                     )
                   : Time.secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
               </div>
-              <div className="round-text">{isInRest ? 'Rest' : 'Round'}</div>
+              <div className="round-text">
+                {isInRest ? t('timer.rest') : t('timer.round')}
+              </div>
             </div>
           </CircularIndicator>
         </div>
@@ -147,7 +155,7 @@ export function App() {
             onClick={onStartClicked}
           >
             <FontAwesomeIcon icon={faPlay} />
-            <span>Start</span>
+            <span>{t('app.start')}</span>
           </button>
         )}
         {state === 'RUNNING' && (
@@ -157,14 +165,14 @@ export function App() {
               onClick={onPauseClicked}
             >
               <FontAwesomeIcon icon={faPause} />
-              <span>Pause</span>
+              <span>{t('app.pause')}</span>
             </button>
             <button
               className="control-button danger-button"
               onClick={onStopClicked}
             >
               <FontAwesomeIcon icon={faStop} />
-              <span>Stop</span>
+              <span>{t('app.stop')}</span>
             </button>
           </div>
         )}
