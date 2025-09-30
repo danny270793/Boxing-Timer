@@ -50,8 +50,13 @@ export const SettingsPage = () => {
           <FontAwesomeIcon icon={faArrowLeft} />
         </button>
         <div className="settings-title">
-          <FontAwesomeIcon icon={faCog} />
-          <span>{t('settings.title')}</span>
+          <div className="settings-title-icon">
+            <FontAwesomeIcon icon={faCog} />
+          </div>
+          <div className="settings-title-text">
+            <h1>{t('settings.title')}</h1>
+            <p>Customize your experience</p>
+          </div>
         </div>
       </div>
 
@@ -60,11 +65,17 @@ export const SettingsPage = () => {
         {/* Language Section */}
         <div className="settings-section">
           <div className="settings-section-header">
-            <FontAwesomeIcon icon={faLanguage} />
-            <h3>{t('settings.language')}</h3>
+            <div className="section-icon">
+              <FontAwesomeIcon icon={faLanguage} />
+            </div>
+            <div className="section-title">
+              <h3>{t('settings.language')}</h3>
+              <p>Choose your preferred language</p>
+            </div>
           </div>
-          {/* Language Selector */}
-          <div className="language-selector">
+          <div className="settings-section-content">
+            {/* Language Selector */}
+            <div className="language-selector">
             <button
               className="language-selected-card"
               onClick={toggleLanguageOptions}
@@ -116,22 +127,41 @@ export const SettingsPage = () => {
                 ))}
               </div>
             )}
+            </div>
           </div>
         </div>
 
         {/* App Info Section */}
         <div className="settings-section">
           <div className="settings-section-header">
-            <h3>{t('settings.about')}</h3>
-          </div>
-          <div className="app-info">
-            <div className="app-info-item">
-              <span className="app-info-label">{t('settings.appName')}</span>
-              <span className="app-info-value">{t('app.title')}</span>
+            <div className="section-icon">
+              <FontAwesomeIcon icon={faCog} />
             </div>
-            <div className="app-info-item">
-              <span className="app-info-label">{t('settings.version')}</span>
-              <span className="app-info-value">1.0.0</span>
+            <div className="section-title">
+              <h3>{t('settings.about')}</h3>
+              <p>App information and version details</p>
+            </div>
+          </div>
+          <div className="settings-section-content">
+            <div className="app-info">
+              <div className="app-info-item">
+                <div className="app-info-icon">
+                  <span>📱</span>
+                </div>
+                <div className="app-info-content">
+                  <span className="app-info-label">{t('settings.appName')}</span>
+                  <span className="app-info-value">{t('app.title')}</span>
+                </div>
+              </div>
+              <div className="app-info-item">
+                <div className="app-info-icon">
+                  <span>🔢</span>
+                </div>
+                <div className="app-info-content">
+                  <span className="app-info-label">{t('settings.version')}</span>
+                  <span className="app-info-value">1.0.0</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
