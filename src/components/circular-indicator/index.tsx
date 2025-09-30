@@ -4,6 +4,7 @@ import './index.css'
 interface CircularIndicatorProps {
   percentage: number
   background?: string
+  className?: string
   children?: ReactNode
 }
 
@@ -13,7 +14,7 @@ export const CircularIndicator: FC<CircularIndicatorProps> = (
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div
-        className="circular-progress"
+        className={`circular-progress ${props.className || ''}`}
         style={{
           '--percentage': props.percentage,
         }}
