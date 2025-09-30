@@ -16,6 +16,7 @@ export const SettingsPage = () => {
     SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.language) ||
       SUPPORTED_LANGUAGES[0],
   )
+  const [showLanguageOptions, setShowLanguageOptions] = useState(false)
 
   // Update selected language when i18n language changes
   useEffect(() => {
@@ -30,6 +31,11 @@ export const SettingsPage = () => {
   const changeLanguage = (language: Language) => {
     i18n.changeLanguage(language.code)
     setSelectedLanguage(language)
+    setShowLanguageOptions(false)
+  }
+
+  const toggleLanguageOptions = () => {
+    setShowLanguageOptions(!showLanguageOptions)
   }
 
   const handleBack = () => {
@@ -57,31 +63,59 @@ export const SettingsPage = () => {
             <FontAwesomeIcon icon={faLanguage} />
             <h3>{t('settings.language')}</h3>
           </div>
-          <div className="language-options">
-            {SUPPORTED_LANGUAGES.map((language) => (
-              <button
-                key={language.code}
-                className={`language-option-card ${
-                  selectedLanguage.code === language.code ? 'selected' : ''
-                }`}
-                onClick={() => changeLanguage(language)}
-              >
-                <div className="language-option-content">
-                  <span className="language-flag">{language.flag}</span>
-                  <div className="language-info">
-                    <span className="language-native-name">
-                      {language.nativeName}
-                    </span>
-                    <span className="language-english-name">
-                      {language.name}
-                    </span>
-                  </div>
-                  {selectedLanguage.code === language.code && (
-                    <div className="selected-indicator">✓</div>
-                  )}
+          {/* Language Selector */}
+          <div className="language-selector">
+            <button
+              className="language-selected-card"
+              onClick={toggleLanguageOptions}
+            >
+              <div className="language-option-content">
+                <span className="language-flag">{selectedLanguage.flag}</span>
+                <div className="language-info">
+                  <span className="language-native-name">
+                    {selectedLanguage.nativeName}
+                  </span>
+                  <span className="language-english-name">
+                    {selectedLanguage.name}
+                  </span>
                 </div>
-              </button>
-            ))}
+                <span
+                  className={`language-toggle-arrow ${showLanguageOptions ? 'open' : ''}`}
+                >
+                  ▼
+                </span>
+              </div>
+            </button>
+
+            {/* Language Options Dropdown */}
+            {showLanguageOptions && (
+              <div className="language-options-dropdown">
+                {SUPPORTED_LANGUAGES.map((language) => (
+                  <button
+                    key={language.code}
+                    className={`language-option-item ${
+                      selectedLanguage.code === language.code ? 'selected' : ''
+                    }`}
+                    onClick={() => changeLanguage(language)}
+                  >
+                    <div className="language-option-content">
+                      <span className="language-flag">{language.flag}</span>
+                      <div className="language-info">
+                        <span className="language-native-name">
+                          {language.nativeName}
+                        </span>
+                        <span className="language-english-name">
+                          {language.name}
+                        </span>
+                      </div>
+                      {selectedLanguage.code === language.code && (
+                        <div className="selected-indicator">✓</div>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
