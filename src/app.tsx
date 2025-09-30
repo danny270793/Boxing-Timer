@@ -119,7 +119,7 @@ export function App() {
       <button
         className="settings-button"
         onClick={() => setIsSettingsOpen(true)}
-        aria-label="Open Settings"
+        aria-label={t('app.openSettings')}
       >
         <FontAwesomeIcon icon={faCog} />
       </button>
