@@ -12,10 +12,18 @@ export const en: Translations = {
     start: 'Start',
     pause: 'Pause',
     stop: 'Stop',
+    openSettings: 'Open Settings',
   },
   timer: {
     round: 'Round',
     rest: 'Rest',
+  },
+  settings: {
+    title: 'Settings',
+    language: 'Language',
+    about: 'About',
+    appName: 'App Name:',
+    version: 'Version:',
   },
 }
 
@@ -31,10 +39,18 @@ export const es: Translations = {
     start: 'Iniciar',
     pause: 'Pausar',
     stop: 'Detener',
+    openSettings: 'Abrir Configuración',
   },
   timer: {
     round: 'Ronda',
     rest: 'Descanso',
+  },
+  settings: {
+    title: 'Configuración',
+    language: 'Idioma',
+    about: 'Acerca de',
+    appName: 'Nombre de la App:',
+    version: 'Versión:',
   },
 }
 
