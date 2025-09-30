@@ -69,7 +69,7 @@ export const SettingsPage = () => {
       {/* Content */}
       <div className="settings-page-content">
         {/* Language Section */}
-        <div className="settings-section">
+        <div className="settings-section language-section">
           <div className="settings-section-header">
             <div className="section-icon">
               <FontAwesomeIcon icon={faLanguage} />
