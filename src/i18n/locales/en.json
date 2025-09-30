@@ -1,0 +1,18 @@
+{
+  "app": {
+    "title": "Boxing Timer",
+    "round": "Round",
+    "of": "of",
+    "roundActive": "Round Active",
+    "restTime": "Rest Time",
+    "paused": "Paused",
+    "workoutComplete": "Workout Complete!",
+    "start": "Start",
+    "pause": "Pause",
+    "stop": "Stop"
+  },
+  "timer": {
+    "round": "Round",
+    "rest": "Rest"
+  }
+}
