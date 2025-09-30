@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HomePage } from './pages/home'
 import { SettingsPage } from './pages/settings'
 import { LicensesPage } from './pages/licenses'
+import { PrivacyPage } from './pages/privacy'
+import { TermsPage } from './pages/terms'
 
 export function App() {
   return (
@@ -10,6 +12,8 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/licenses" element={<LicensesPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
       </Routes>
     </BrowserRouter>
   )
