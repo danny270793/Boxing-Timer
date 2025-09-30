@@ -38,9 +38,9 @@ export function useLocalStorage() {
       ...newState,
       lastUpdated: Date.now(),
     }
-    
+
     setTimerState(updatedState)
-    
+
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedState))
       console.log('Saved timer state to localStorage:', updatedState)
@@ -56,7 +56,7 @@ export function useLocalStorage() {
       seconds: 0,
       lastUpdated: Date.now(),
     })
-    
+
     try {
       localStorage.removeItem(STORAGE_KEY)
     } catch (error) {
@@ -69,11 +69,11 @@ export function useLocalStorage() {
     if (timerState.state !== 'RUNNING') {
       return timerState.seconds
     }
-    
+
     const now = Date.now()
     const elapsedMs = now - timerState.lastUpdated
     const elapsedSeconds = Math.floor(elapsedMs / 1000)
-    
+
     return timerState.seconds + elapsedSeconds
   }
 
