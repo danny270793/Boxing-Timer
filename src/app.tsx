@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState, type MutableRef } from 'preact/hooks'
 import { useTranslation } from 'react-i18next'
 import { CircularIndicator } from './components/circular-indicator'
-import { LanguageSwitcher } from './components/language-switcher'
+import { SettingsScreen } from './components/settings-screen'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
+import {
+  faPause,
+  faPlay,
+  faStop,
+  faCog,
+} from '@fortawesome/free-solid-svg-icons'
 import Bell from './assets/boxing-bell.mp3'
 import TenSecondsLeft from './assets/10-seconds-left.mp3'
 import { Time } from './utils/time'
@@ -24,6 +29,7 @@ export function App() {
 
   const [state, setState] = useState<State>('STOPPED')
   const [seconds, setSeconds] = useState<number>(0)
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false)
 
   useEffect(() => {
     StatusBar.backgroundColorByHexString('#667eea')
@@ -109,8 +115,14 @@ export function App() {
 
   return (
     <div className="app-container">
-      {/* Language Switcher */}
-      <LanguageSwitcher />
+      {/* Settings Button */}
+      <button
+        className="settings-button"
+        onClick={() => setIsSettingsOpen(true)}
+        aria-label={t('app.openSettings')}
+      >
+        <FontAwesomeIcon icon={faCog} />
+      </button>
 
       {/* Header */}
       <div className="app-header animate-fade-in">
@@ -177,6 +189,12 @@ export function App() {
           </div>
         )}
       </div>
+
+      {/* Settings Screen */}
+      <SettingsScreen
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
     </div>
   )
 }
