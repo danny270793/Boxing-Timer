@@ -190,7 +190,10 @@ export const SettingsPage = () => {
             </div>
           </div>
           <div className="settings-section-content">
-            <button className="licenses-link-button" onClick={handleLicensesClick}>
+            <button
+              className="licenses-link-button"
+              onClick={handleLicensesClick}
+            >
               <div className="licenses-link-content">
                 <div className="licenses-link-info">
                   <span className="licenses-link-title">View Licenses</span>
@@ -198,7 +201,10 @@ export const SettingsPage = () => {
                     See all open source libraries and their licenses
                   </span>
                 </div>
-                <FontAwesomeIcon icon={faExternalLinkAlt} className="licenses-link-icon" />
+                <FontAwesomeIcon
+                  icon={faExternalLinkAlt}
+                  className="licenses-link-icon"
+                />
               </div>
             </button>
           </div>
