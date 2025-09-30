@@ -6,6 +6,8 @@ import {
   faArrowLeft,
   faCog,
   faLanguage,
+  faFileText,
+  faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { SUPPORTED_LANGUAGES, type Language } from '../../i18n/types'
 
@@ -40,6 +42,10 @@ export const SettingsPage = () => {
 
   const handleBack = () => {
     navigate('/')
+  }
+
+  const handleLicensesClick = () => {
+    navigate('/licenses')
   }
 
   return (
@@ -169,6 +175,32 @@ export const SettingsPage = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Licenses Section */}
+        <div className="settings-section">
+          <div className="settings-section-header">
+            <div className="section-icon">
+              <FontAwesomeIcon icon={faFileText} />
+            </div>
+            <div className="section-title">
+              <h3>Open Source Licenses</h3>
+              <p>View third-party library licenses</p>
+            </div>
+          </div>
+          <div className="settings-section-content">
+            <button className="licenses-link-button" onClick={handleLicensesClick}>
+              <div className="licenses-link-content">
+                <div className="licenses-link-info">
+                  <span className="licenses-link-title">View Licenses</span>
+                  <span className="licenses-link-description">
+                    See all open source libraries and their licenses
+                  </span>
+                </div>
+                <FontAwesomeIcon icon={faExternalLinkAlt} className="licenses-link-icon" />
+              </div>
+            </button>
           </div>
         </div>
       </div>
