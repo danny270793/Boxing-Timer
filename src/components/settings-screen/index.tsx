@@ -47,7 +47,7 @@ export const SettingsScreen = ({ isOpen, onClose }: SettingsScreenProps) => {
           </button>
           <div className="settings-title">
             <FontAwesomeIcon icon={faCog} />
-            <span>Settings</span>
+            <span>{t('settings.title')}</span>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export const SettingsScreen = ({ isOpen, onClose }: SettingsScreenProps) => {
           <div className="settings-section">
             <div className="settings-section-header">
               <FontAwesomeIcon icon={faLanguage} />
-              <h3>Language</h3>
+              <h3>{t('settings.language')}</h3>
             </div>
             <div className="language-options">
               {SUPPORTED_LANGUAGES.map((language) => (
@@ -90,15 +90,15 @@ export const SettingsScreen = ({ isOpen, onClose }: SettingsScreenProps) => {
           {/* App Info Section */}
           <div className="settings-section">
             <div className="settings-section-header">
-              <h3>About</h3>
+              <h3>{t('settings.about')}</h3>
             </div>
             <div className="app-info">
               <div className="app-info-item">
-                <span className="app-info-label">App Name:</span>
+                <span className="app-info-label">{t('settings.appName')}</span>
                 <span className="app-info-value">{t('app.title')}</span>
               </div>
               <div className="app-info-item">
-                <span className="app-info-label">Version:</span>
+                <span className="app-info-label">{t('settings.version')}</span>
                 <span className="app-info-value">1.0.0</span>
               </div>
             </div>
