@@ -9,6 +9,15 @@ export interface AppTranslations {
   start: string
   pause: string
   stop: string
+  openSettings: string
+}
+
+export interface SettingsTranslations {
+  title: string
+  language: string
+  about: string
+  appName: string
+  version: string
 }
 
 export interface TimerTranslations {
@@ -19,6 +28,7 @@ export interface TimerTranslations {
 export interface Translations {
   app: AppTranslations
   timer: TimerTranslations
+  settings: SettingsTranslations
 }
 
 export interface Language {
