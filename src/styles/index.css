@@ -31,8 +31,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
 }
 
 body {
@@ -48,9 +47,8 @@ body {
 }
 
 #app {
-  height: 100%;
+  min-height: 100vh;
   position: relative;
-  overflow: hidden;
 }
 
 .w3-bottom {
@@ -111,6 +109,15 @@ body {
   /* Respect safe areas for iOS devices */
   padding-left: max(0.5rem, var(--safe-area-inset-left));
   padding-right: max(0.5rem, var(--safe-area-inset-right));
+}
+
+/* Allow scrolling on other pages */
+.settings-page,
+.licenses-page,
+.legal-page {
+  height: auto;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .app-container::before {
@@ -427,10 +434,8 @@ body {
 
 /* Settings Page */
 .settings-page {
-  min-height: 100vh;
   background: var(--primary-gradient);
   position: relative;
-  overflow: hidden;
 }
 
 .settings-page::before {
@@ -892,10 +897,8 @@ body {
 
 /* Licenses Page */
 .licenses-page {
-  min-height: 100vh;
   background: var(--primary-gradient);
   position: relative;
-  overflow: hidden;
 }
 
 .licenses-page::before {
@@ -1150,10 +1153,8 @@ body {
 
 /* Legal Pages (Privacy Policy & Terms) */
 .legal-page {
-  min-height: 100vh;
   background: var(--primary-gradient);
   position: relative;
-  overflow: hidden;
 }
 
 .legal-page::before {
