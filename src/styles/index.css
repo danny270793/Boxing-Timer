@@ -440,14 +440,21 @@ body {
     flex: 1;
     padding: 0.5rem;
     padding-left: calc(0.5rem + var(--safe-area-inset-left));
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
     padding-top: 3.5rem;
   }
 
   .timer-wrapper {
-    max-width: none;
-    height: 100%;
-    max-height: calc(100vh - 4rem);
+    width: auto;
+    height: calc(100% - 4rem);
+    max-height: calc(
+      100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom) - 4.5rem
+    );
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .controls-container {
