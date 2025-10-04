@@ -100,7 +100,9 @@ body {
 
 /* App Layout */
 .app-container {
-  height: 100%;
+  height: calc(
+    100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom)
+  );
   display: flex;
   flex-direction: column;
   background: var(--primary-gradient);
