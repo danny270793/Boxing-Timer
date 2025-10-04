@@ -47,7 +47,9 @@ body {
 }
 
 #app {
-  min-height: 100vh;
+  min-height: calc(
+    100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom)
+  );
   position: relative;
 }
 
@@ -118,7 +120,9 @@ body {
 .licenses-page,
 .legal-page {
   height: auto;
-  min-height: 100vh;
+  min-height: calc(
+    100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom)
+  );
   overflow-y: auto;
 }
 
