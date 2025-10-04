@@ -7,7 +7,7 @@
   );
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  width: min(85vw, 85vh);
+  width: min(75vw, 75vh);
   max-width: 400px;
   position: relative;
   box-shadow: var(--shadow-large);
@@ -39,7 +39,7 @@
 /* inside circle */
 .circular-progress-children {
   aspect-ratio: 1 / 1;
-  width: min(75vw, 75vh);
+  width: min(70vw, 70vh);
   max-width: 350px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.95);
