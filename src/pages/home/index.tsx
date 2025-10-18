@@ -20,7 +20,7 @@ const SECONDS_BY_ROUND: number = Time.minutesInSeconds(3)
 const REST_SECONDS: number = Time.minutesInSeconds(1)
 const ROUNDS: number = 12
 
-type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED'
+type State = 'RUNNING' | 'PAUSED' | 'STOPPED' | 'FINISHED' | 'COUNTDOWN'
 
 export const HomePage = () => {
   const { t } = useTranslation()
@@ -34,6 +34,7 @@ export const HomePage = () => {
     useLocalStorage()
   const [state, setState] = useState<State>(timerState.state)
   const [seconds, setSeconds] = useState<number>(timerState.seconds)
+  const [countdown, setCountdown] = useState<number>(0)
 
   // Scroll to top on navigation
   useScrollToTop()
@@ -47,6 +48,30 @@ export const HomePage = () => {
     setState(timerState.state)
     setSeconds(timerState.seconds)
   }, [timerState.state, timerState.seconds])
+
+  // Handle countdown logic
+  useEffect(() => {
+    if (state === 'COUNTDOWN') {
+      const interval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval)
+            setState('RUNNING')
+            if (timerState.state === 'FINISHED') {
+              setSeconds(0)
+              updateTimerState({ state: 'RUNNING', seconds: 0 })
+            } else {
+              updateTimerState({ state: 'RUNNING' })
+            }
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+
+      return () => clearInterval(interval)
+    }
+  }, [state, timerState.state, updateTimerState])
 
   // Update seconds for running timers based on elapsed time
   useEffect(() => {
@@ -74,13 +99,8 @@ export const HomePage = () => {
   }, [state, getElapsedSeconds, updateTimerState])
 
   const onStartClicked = () => {
-    if (state === 'FINISHED') {
-      setSeconds(0)
-      updateTimerState({ state: 'RUNNING', seconds: 0 })
-    } else {
-      updateTimerState({ state: 'RUNNING' })
-    }
-    setState('RUNNING')
+    setCountdown(10)
+    setState('COUNTDOWN')
   }
 
   const onStopClicked = () => {
@@ -130,14 +150,23 @@ export const HomePage = () => {
       return isInRest ? 'rest-active' : 'round-active'
     }
     if (state === 'PAUSED') return 'paused'
+    if (state === 'COUNTDOWN') return 'countdown'
     return 'stopped'
   }
 
   const getStatusText = () => {
     if (state === 'FINISHED') return t('app.workoutComplete')
     if (state === 'PAUSED') return t('app.paused')
+    if (state === 'COUNTDOWN') return t('app.getReady')
     if (isInRest) return t('app.restTime')
     return t('app.roundActive')
+  }
+
+  const getTimerPercentage = () => {
+    if (state === 'COUNTDOWN') {
+      return ((10 - countdown) / 10) * 100
+    }
+    return isInRest ? restPercentage : roundPercentage
   }
 
   return (
@@ -167,20 +196,29 @@ export const HomePage = () => {
       <div className="timer-container">
         <div className="timer-wrapper">
           <CircularIndicator
-            percentage={isInRest ? restPercentage : roundPercentage}
+            percentage={getTimerPercentage()}
             className={getStateClass()}
           >
             <div className="timer-content">
-              <div className="timer-text">
-                {isInRest
-                  ? Time.secondsToMMSS(
-                      SECONDS_BY_ROUND + REST_SECONDS - roundSeconds,
-                    )
-                  : Time.secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
-              </div>
-              <div className="round-text">
-                {isInRest ? t('timer.rest') : t('timer.round')}
-              </div>
+              {state === 'COUNTDOWN' ? (
+                <>
+                  <div className="timer-text countdown-text">{countdown}</div>
+                  <div className="round-text">{t('app.startingIn')}</div>
+                </>
+              ) : (
+                <>
+                  <div className="timer-text">
+                    {isInRest
+                      ? Time.secondsToMMSS(
+                          SECONDS_BY_ROUND + REST_SECONDS - roundSeconds,
+                        )
+                      : Time.secondsToMMSS(SECONDS_BY_ROUND - roundSeconds)}
+                  </div>
+                  <div className="round-text">
+                    {isInRest ? t('timer.rest') : t('timer.round')}
+                  </div>
+                </>
+              )}
             </div>
           </CircularIndicator>
         </div>
@@ -188,7 +226,7 @@ export const HomePage = () => {
 
       {/* Control Buttons */}
       <div className="controls-container">
-        {state !== 'RUNNING' && (
+        {state !== 'RUNNING' && state !== 'COUNTDOWN' && (
           <button
             className="control-button primary-button animate-slide-in"
             onClick={onStartClicked}
@@ -196,6 +234,22 @@ export const HomePage = () => {
             <FontAwesomeIcon icon={faPlay} />
             <span>{t('app.start')}</span>
           </button>
+        )}
+        {state === 'COUNTDOWN' && (
+          <div className="countdown-controls animate-slide-in">
+            <div className="countdown-info">
+              <span>
+                {t('app.startingIn')} {countdown}
+              </span>
+            </div>
+            <button
+              className="control-button danger-button"
+              onClick={onStopClicked}
+            >
+              <FontAwesomeIcon icon={faStop} />
+              <span>{t('app.stop')}</span>
+            </button>
+          </div>
         )}
         {state === 'RUNNING' && (
           <div className="control-row animate-slide-in">
