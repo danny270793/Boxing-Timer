@@ -217,6 +217,12 @@ body {
   box-shadow: 0 4px 15px rgba(226, 232, 240, 0.4);
 }
 
+.status-badge.countdown {
+  background: rgba(255, 193, 7, 0.9);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+}
+
 /* Timer Container */
 .timer-container {
   flex: 1;
@@ -272,6 +278,58 @@ body {
   position: relative;
   overflow: hidden;
   min-height: 48px;
+}
+
+/* Countdown Styles */
+.countdown-text {
+  font-size: 4rem !important;
+  font-weight: 700 !important;
+  color: #ffc107 !important;
+  text-shadow: 0 4px 8px rgba(255, 193, 7, 0.3) !important;
+  animation: countdown-pulse 1s ease-in-out infinite;
+}
+
+@keyframes countdown-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.countdown-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.countdown-info {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 193, 7, 0.1);
+  border: 2px solid rgba(255, 193, 7, 0.3);
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffc107;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  animation: countdown-info-pulse 1s ease-in-out infinite;
+}
+
+@keyframes countdown-info-pulse {
+  0%,
+  100% {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: rgba(255, 193, 7, 0.3);
+  }
+  50% {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.5);
+  }
 }
 
 .control-button::before {
