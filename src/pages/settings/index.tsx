@@ -10,13 +10,18 @@ import {
   faExternalLinkAlt,
   faShieldAlt,
   faFileContract,
+  faSun,
+  faMoon,
+  faDesktop,
 } from '@fortawesome/free-solid-svg-icons'
 import { SUPPORTED_LANGUAGES, type Language } from '../../i18n/types'
 import { useScrollToTop } from '../../hooks/useScrollToTop'
+import { useTheme } from '../../hooks/useTheme'
 
 export const SettingsPage = () => {
   const { i18n, t } = useTranslation()
   const navigate = useNavigate()
+  const { theme, changeTheme } = useTheme()
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(
     SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.language) ||
       SUPPORTED_LANGUAGES[0],
@@ -149,6 +154,61 @@ export const SettingsPage = () => {
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+
+        {/* Theme Section */}
+        <div className="settings-section theme-section">
+          <div className="settings-section-header">
+            <div className="section-icon">
+              <FontAwesomeIcon icon={faSun} />
+            </div>
+            <div className="section-title">
+              <h3>{t('settings.theme')}</h3>
+              <p>{t('settings.themeDescription')}</p>
+            </div>
+          </div>
+          <div className="settings-section-content">
+            <div className="theme-selector">
+              <div className="theme-options">
+                <button
+                  className={`theme-option light ${theme === 'light' ? 'selected' : ''}`}
+                  onClick={() => changeTheme('light')}
+                >
+                  <div className="theme-option-icon">
+                    <FontAwesomeIcon icon={faSun} />
+                  </div>
+                  <div className="theme-option-name">
+                    {t('settings.lightTheme')}
+                  </div>
+                  <div className="theme-option-description">Always light</div>
+                </button>
+                <button
+                  className={`theme-option dark ${theme === 'dark' ? 'selected' : ''}`}
+                  onClick={() => changeTheme('dark')}
+                >
+                  <div className="theme-option-icon">
+                    <FontAwesomeIcon icon={faMoon} />
+                  </div>
+                  <div className="theme-option-name">
+                    {t('settings.darkTheme')}
+                  </div>
+                  <div className="theme-option-description">Always dark</div>
+                </button>
+                <button
+                  className={`theme-option system ${theme === 'system' ? 'selected' : ''}`}
+                  onClick={() => changeTheme('system')}
+                >
+                  <div className="theme-option-icon">
+                    <FontAwesomeIcon icon={faDesktop} />
+                  </div>
+                  <div className="theme-option-name">
+                    {t('settings.systemTheme')}
+                  </div>
+                  <div className="theme-option-description">Follow system</div>
+                </button>
+              </div>
             </div>
           </div>
         </div>
