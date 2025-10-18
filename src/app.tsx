@@ -4,8 +4,12 @@ import { SettingsPage } from './pages/settings'
 import { LicensesPage } from './pages/licenses'
 import { PrivacyPage } from './pages/privacy'
 import { TermsPage } from './pages/terms'
+import { useTheme } from './hooks/useTheme'
 
 export function App() {
+  // Initialize theme system
+  useTheme()
+
   return (
     <BrowserRouter>
       <Routes>
