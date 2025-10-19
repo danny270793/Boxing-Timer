@@ -33,6 +33,11 @@ export const en: Translations = {
   settings: {
     title: 'Settings',
     language: 'Language',
+    theme: 'Theme',
+    themeDescription: 'Choose the theme for the application',
+    lightTheme: 'Light',
+    darkTheme: 'Dark',
+    systemTheme: 'System',
     about: 'About',
     appName: 'App Name:',
     version: 'Version:',
@@ -158,6 +163,11 @@ export const es: Translations = {
   settings: {
     title: 'Configuración',
     language: 'Idioma',
+    theme: 'Tema',
+    themeDescription: 'Elige el tema de la aplicación',
+    lightTheme: 'Claro',
+    darkTheme: 'Oscuro',
+    systemTheme: 'Sistema',
     about: 'Acerca de',
     appName: 'Nombre de la App:',
     version: 'Versión:',
