@@ -27,6 +27,11 @@ export interface AppTranslations {
 export interface SettingsTranslations {
   title: string
   language: string
+  theme: string
+  themeDescription: string
+  lightTheme: string
+  darkTheme: string
+  systemTheme: string
   about: string
   appName: string
   version: string
