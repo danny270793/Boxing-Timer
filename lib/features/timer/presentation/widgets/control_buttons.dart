@@ -88,7 +88,6 @@ class ControlButtons extends StatelessWidget {
                 ),
               ),
               style: FilledButton.styleFrom(
-                backgroundColor: Colors.red,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
