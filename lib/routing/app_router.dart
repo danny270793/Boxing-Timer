@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,56 +32,61 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/splash',
         name: 'splash',
-        builder: (context, state) => const SplashPage(),
+        pageBuilder: (context, state) => _page(state, const SplashPage()),
       ),
       GoRoute(
         path: '/login',
         name: 'login',
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) => _page(state, const LoginPage()),
       ),
       GoRoute(
         path: '/',
         name: 'timer',
-        builder: (context, state) => const TimerPage(),
+        pageBuilder: (context, state) => _page(state, const TimerPage()),
       ),
       GoRoute(
         path: '/settings',
         name: 'settings',
-        builder: (context, state) => const SettingsHomePage(),
+        pageBuilder: (context, state) => _page(state, const SettingsHomePage()),
         routes: [
           GoRoute(
             path: 'modes',
             name: 'modes',
-            builder: (context, state) => const ModesPage(),
+            pageBuilder: (context, state) => _page(state, const ModesPage()),
             routes: [
               GoRoute(
                 path: 'mode',
                 name: 'newMode',
-                builder: (context, state) =>
-                    ModeEditorPage(template: state.extra as TimerMode?),
+                pageBuilder: (context, state) => _page(
+                  state,
+                  ModeEditorPage(template: state.extra as TimerMode?),
+                ),
               ),
               GoRoute(
                 path: 'mode/:id',
                 name: 'editMode',
-                builder: (context, state) =>
-                    ModeEditorPage(modeId: state.pathParameters['id']),
+                pageBuilder: (context, state) => _page(
+                  state,
+                  ModeEditorPage(modeId: state.pathParameters['id']),
+                ),
               ),
             ],
           ),
           GoRoute(
             path: 'about',
             name: 'about',
-            builder: (context, state) => const AboutPage(),
+            pageBuilder: (context, state) => _page(state, const AboutPage()),
           ),
           GoRoute(
             path: 'terms',
             name: 'terms',
-            builder: (context, state) => const TermsPage(),
+            pageBuilder: (context, state) => _page(state, const TermsPage()),
           ),
           GoRoute(
             path: 'privacy',
             name: 'privacy',
-            builder: (context, state) => const PrivacyPolicyPage(),
+            pageBuilder: (context, state) =>
+                _page(state, const PrivacyPolicyPage()),
           ),
         ],
       ),
@@ -89,3 +95,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(router.dispose);
   return router;
 });
+
+/// Routes declare their pages explicitly because go_router only falls back to
+/// transition-less pages otherwise, which also drops the iOS swipe-back
+/// gesture. [MaterialPage] restores the platform transition and the gesture.
+MaterialPage<void> _page(GoRouterState state, Widget child) =>
+    MaterialPage<void>(key: state.pageKey, name: state.name, child: child);
