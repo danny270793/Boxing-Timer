@@ -16,7 +16,10 @@ Future<bool> showDeleteModeDialog(BuildContext context, String modeName) async {
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(true),
-          style: FilledButton.styleFrom(backgroundColor: Colors.red),
+          style: FilledButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.error,
+            foregroundColor: Theme.of(context).colorScheme.onError,
+          ),
           child: Text(loc.deleteButton),
         ),
       ],
