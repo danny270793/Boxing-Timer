@@ -1,27 +1,39 @@
 {
   "@@locale": "en",
-
   "appTitle": "BOXING TIMER",
   "phaseWarmup": "WARM UP",
   "phaseRound": "ROUND",
   "phaseRest": "REST",
   "phaseFinished": "FIGHT OVER",
   "phaseReady": "READY",
-
   "roundsAhead": "{count, plural, one{1 round ahead} other{{count} rounds ahead}}",
   "@roundsAhead": {
-    "placeholders": { "count": { "type": "num" } }
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
   },
   "getReady": "Get ready...",
   "roundProgress": "Round {current} / {total}",
   "@roundProgress": {
-    "placeholders": { "current": { "type": "int" }, "total": { "type": "int" } }
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   },
   "completedRounds": "{count, plural, one{Completed 1 / 1 round} other{Completed {count} / {count} rounds}}",
   "@completedRounds": {
-    "placeholders": { "count": { "type": "num" } }
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
   },
-
   "startButton": "Start",
   "startNewFightButton": "Start new fight",
   "pauseButton": "Pause",
@@ -29,11 +41,14 @@
   "stopButton": "Stop",
   "cancelButton": "Cancel",
   "deleteButton": "Delete",
-
   "stopDialogTitle": "Stop the fight?",
   "stopDialogBody": "This will stop the timer completely and reset it back to the start.",
-
   "settingsTitle": "Settings",
+  "settingsProfileSection": "Profile",
+  "settingsSecuritySection": "Security",
+  "settingsTimerSection": "Timer",
+  "settingsAppearanceSection": "Appearance",
+  "settingsAboutSection": "About",
   "modesMenuTitle": "Modes",
   "modesMenuSubtitle": "Rounds, timing and presets",
   "themeMenuTitle": "Theme",
@@ -41,7 +56,6 @@
   "aboutMenuTitle": "About",
   "termsMenuTitle": "Terms & Conditions",
   "privacyMenuTitle": "Privacy Policy",
-
   "signIn": "Sign in",
   "signOut": "Sign out",
   "signInSubtitle": "Sign in to protect your settings, or keep using the timer locally.",
@@ -67,17 +81,14 @@
   "biometricLockTitle": "Boxing Timer is locked",
   "biometricLockBody": "Authenticate to continue.",
   "unlockButton": "Unlock",
-
   "chooseThemeTitle": "Choose theme",
   "themeSystem": "System",
   "themeLight": "Light",
   "themeDark": "Dark",
-
   "chooseLanguageTitle": "Choose language",
   "languageSystemDefault": "System default",
   "languageEnglish": "English",
   "languageSpanish": "Spanish",
-
   "modesTitle": "Modes",
   "newModeButton": "New mode",
   "newModeTitle": "New mode",
@@ -98,38 +109,60 @@
   "deleteModeDialogTitle": "Delete mode?",
   "deleteModeDialogBody": "This will permanently delete \"{name}\".",
   "@deleteModeDialogBody": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "switchModeBlockedSnackbar": "Stop the current fight before switching modes.",
   "copyOfMode": "Copy of {name}",
   "@copyOfMode": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "modeRoundsCount": "{count, plural, one{1 round} other{{count} rounds}}",
   "@modeRoundsCount": {
-    "placeholders": { "count": { "type": "num" } }
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
   },
   "workDuration": "{duration} work",
   "@workDuration": {
-    "placeholders": { "duration": { "type": "String" } }
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
   },
   "restDuration": "{duration} rest",
   "@restDuration": {
-    "placeholders": { "duration": { "type": "String" } }
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
   },
-
   "aboutTitle": "About",
   "appTagline": "Round timer for boxing, MMA, and combat sports training.",
   "versionLabel": "Version {version}",
   "@versionLabel": {
-    "placeholders": { "version": { "type": "String" } }
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
   },
   "aboutDescription": "Boxing Timer helps you run structured round timers for boxing, MMA, and other combat sports. Configure warm-up, round, and rest durations, save your favorite setups as modes, and train with audio cues for round starts and the final ten seconds of each round.",
   "contactLabel": "Contact",
   "contactEmail": "support@example.com",
-
   "termsTitle": "Terms & Conditions",
   "privacyTitle": "Privacy Policy",
-  "termsBody": "These Terms & Conditions (\"Terms\") govern your use of Boxing Timer (the \"App\"). By downloading, installing, or using the App, you agree to be bound by these Terms. If you do not agree, do not use the App.\n\n1. Use of the App\nThe App is provided for personal, non-commercial use as a round timer for boxing, MMA, and other combat sports training. You are responsible for using the App safely and are solely responsible for any injury or harm arising from your training activities.\n\n2. No Professional Advice\nThe App does not provide medical, coaching, or professional training advice. Consult a qualified professional before starting any exercise program.\n\n3. Intellectual Property\nAll content, design, and code in the App are owned by the developer unless otherwise noted, and may not be copied, modified, or redistributed without permission.\n\n4. Disclaimer of Warranty\nThe App is provided \"as is\" and \"as available,\" without warranties of any kind, express or implied, including but not limited to fitness for a particular purpose, accuracy, or uninterrupted operation.\n\n5. Limitation of Liability\nTo the fullest extent permitted by law, the developer shall not be liable for any indirect, incidental, or consequential damages arising from your use of, or inability to use, the App.\n\n6. Changes to These Terms\nThese Terms may be updated from time to time. Continued use of the App after changes are published constitutes acceptance of the revised Terms.\n\n7. Contact\nIf you have questions about these Terms, contact us at [your-email@example.com].\n\nLast updated: [insert date]\n\nThis is placeholder legal text. Replace it with content reviewed by a lawyer for your jurisdiction before publishing this App.",
-  "privacyBody": "This Privacy Policy explains how Boxing Timer (the \"App\") handles your information.\n\n1. Data We Collect\nThe App does not require an account and does not collect, transmit, or sell any personal information. Your custom training modes and preferences (theme, language, selected mode) are stored locally on your device only.\n\n2. No Analytics or Advertising\nThe App does not include third-party analytics, tracking, or advertising software.\n\n3. Permissions\nThe App does not request access to your camera, microphone, contacts, or location. Any device permissions used are limited to what is required for the App's core timer and sound features.\n\n4. Data Sharing\nBecause no personal data is collected, none is shared with third parties.\n\n5. Children's Privacy\nThe App is not directed at children and does not knowingly collect information from children.\n\n6. Changes to This Policy\nThis Privacy Policy may be updated from time to time. Changes will be reflected by an updated \"Last updated\" date below.\n\n7. Contact\nIf you have questions about this Privacy Policy, contact us at [your-email@example.com].\n\nLast updated: [insert date]\n\nThis is placeholder legal text. Replace it with content reviewed by a lawyer for your jurisdiction before publishing this App."
+  "termsBody": "These Terms & Conditions (\"Terms\") govern your use of Boxing Timer (the \"App\"). By downloading, installing, or using the App, you agree to be bound by these Terms. If you do not agree, do not use the App.\n\n1. Use of the App\nThe App is provided for personal, non-commercial use as a round timer for boxing, MMA, and other combat sports training. You are responsible for using the App safely and are solely responsible for any injury or harm arising from your training activities.\n\n2. Optional account\nYou can use the App without signing in. If you create an account, sign-in is handled by Supabase. Training modes and similar app-generated data stay on this device today. Later versions may store that information in Supabase when you are signed in so it can sync across your devices.\n\n3. No Professional Advice\nThe App does not provide medical, coaching, or professional training advice. Consult a qualified professional before starting any exercise program.\n\n4. Intellectual Property\nAll content, design, and code in the App are owned by the developer unless otherwise noted, and may not be copied, modified, or redistributed without permission.\n\n5. Disclaimer of Warranty\nThe App is provided \"as is\" and \"as available,\" without warranties of any kind, express or implied.\n\n6. Limitation of Liability\nTo the fullest extent permitted by law, the developer shall not be liable for any indirect, incidental, or consequential damages arising from your use of the App.\n\n7. Changes to These Terms\nThese Terms may be updated from time to time. Continued use of the App after changes are published constitutes acceptance of the revised Terms.",
+  "privacyBody": "This Privacy Policy explains how Boxing Timer (the \"App\") handles your information.\n\n1. Account (optional)\nYou can use the App without an account. If you sign in, authentication is provided by Supabase. Your email and credentials are processed by Supabase; this App does not store your password.\n\n2. What we store today — and later\nCustom training modes and preferences (theme, language, selected mode) are stored locally on your device. We do not currently upload app-generated data such as saved modes or favorites. In the future, if you are signed in, we may store that kind of information in Supabase so it can sync across your devices.\n\n3. No Analytics or Advertising\nThe App does not include third-party analytics, tracking, or advertising software.\n\n4. Permissions\nDevice permissions are limited to what is required for the timer, sounds, and optional biometric unlock.\n\n5. Data Sharing\nWe do not sell your personal information. Sign-in data is processed by Supabase. Later cloud sync, if enabled, would also use Supabase.\n\n6. Changes to This Policy\nThis Privacy Policy may be updated from time to time. Continued use of the App after changes means you accept the updated policy."
 }
