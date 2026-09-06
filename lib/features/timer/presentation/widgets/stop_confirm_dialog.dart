@@ -16,7 +16,6 @@ Future<bool> showStopConfirmDialog(BuildContext context) async {
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(true),
-          style: FilledButton.styleFrom(backgroundColor: Colors.red),
           child: Text(loc.stopButton),
         ),
       ],
