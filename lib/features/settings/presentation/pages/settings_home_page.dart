@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/security/biometric_controller.dart';
+import '../../../../core/widgets/bottom_sheet_pinned_title.dart';
 import '../../../auth/application/auth_controller.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../application/app_settings_controller.dart';
@@ -53,23 +54,25 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
       appBar: AppBar(title: Text(loc.settingsTitle)),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           children: [
             if (auth.isAuthenticated) ...[
-              ListTile(
-                leading: const Icon(Icons.person_outline),
-                title: Text(loc.changeEmail),
-                subtitle: Text(auth.user?.email ?? ''),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => _showChangeEmailDialog(context, ref),
+              _SectionHeader(loc.settingsProfileSection),
+              _SettingsTile(
+                icon: Icons.person_outline,
+                title: loc.changeEmail,
+                subtitle: auth.user?.email ?? '',
+                onTap: () => _showChangeEmailSheet(context, ref),
               ),
-              ListTile(
-                leading: const Icon(Icons.lock_outline),
-                title: Text(loc.changePassword),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => _showChangePasswordDialog(context, ref),
+              _SettingsTile(
+                icon: Icons.lock_outline,
+                title: loc.changePassword,
+                onTap: () => _showChangePasswordSheet(context, ref),
               ),
+              const _SectionDivider(),
+              _SectionHeader(loc.settingsSecuritySection),
               SwitchListTile(
+                contentPadding: EdgeInsets.zero,
                 secondary: const Icon(Icons.fingerprint),
                 title: Text(loc.biometricUnlock),
                 subtitle: Text(
@@ -96,47 +99,44 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
                   }
                 },
               ),
-              const Divider(height: 1),
+              const _SectionDivider(),
             ],
-            ListTile(
-              leading: const Icon(Icons.timer_outlined),
-              title: Text(loc.modesMenuTitle),
-              subtitle: Text(loc.modesMenuSubtitle),
-              trailing: const Icon(Icons.chevron_right),
+            _SectionHeader(loc.settingsTimerSection),
+            _SettingsTile(
+              icon: Icons.timer_outlined,
+              title: loc.modesMenuTitle,
+              subtitle: loc.modesMenuSubtitle,
               onTap: () => context.push('/settings/modes'),
             ),
-            const Divider(height: 1),
-            ListTile(
-              leading: const Icon(Icons.brightness_6_outlined),
-              title: Text(loc.themeMenuTitle),
-              subtitle: Text(_themeLabel(loc, settings.themeMode)),
-              trailing: const Icon(Icons.chevron_right),
+            const _SectionDivider(),
+            _SectionHeader(loc.settingsAppearanceSection),
+            _SettingsTile(
+              icon: Icons.brightness_6_outlined,
+              title: loc.themeMenuTitle,
+              subtitle: _themeLabel(loc, settings.themeMode),
               onTap: () => showThemePickerDialog(context),
             ),
-            ListTile(
-              leading: const Icon(Icons.language_outlined),
-              title: Text(loc.languageMenuTitle),
-              subtitle: Text(_languageLabel(loc, settings.locale)),
-              trailing: const Icon(Icons.chevron_right),
+            _SettingsTile(
+              icon: Icons.language_outlined,
+              title: loc.languageMenuTitle,
+              subtitle: _languageLabel(loc, settings.locale),
               onTap: () => showLanguagePickerDialog(context),
             ),
-            const Divider(height: 1),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: Text(loc.aboutMenuTitle),
-              trailing: const Icon(Icons.chevron_right),
+            const _SectionDivider(),
+            _SectionHeader(loc.settingsAboutSection),
+            _SettingsTile(
+              icon: Icons.info_outline,
+              title: loc.aboutMenuTitle,
               onTap: () => context.push('/settings/about'),
             ),
-            ListTile(
-              leading: const Icon(Icons.description_outlined),
-              title: Text(loc.termsMenuTitle),
-              trailing: const Icon(Icons.chevron_right),
+            _SettingsTile(
+              icon: Icons.description_outlined,
+              title: loc.termsMenuTitle,
               onTap: () => context.push('/settings/terms'),
             ),
-            ListTile(
-              leading: const Icon(Icons.privacy_tip_outlined),
-              title: Text(loc.privacyMenuTitle),
-              trailing: const Icon(Icons.chevron_right),
+            _SettingsTile(
+              icon: Icons.privacy_tip_outlined,
+              title: loc.privacyMenuTitle,
               onTap: () => context.push('/settings/privacy'),
             ),
             const SizedBox(height: 24),
@@ -185,7 +185,7 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
     );
   }
 
-  Future<void> _showChangeEmailDialog(
+  Future<void> _showChangeEmailSheet(
     BuildContext context,
     WidgetRef ref,
   ) async {
@@ -193,7 +193,7 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
     final controller = TextEditingController(
       text: ref.read(authControllerProvider).user?.email ?? '',
     );
-    await _showUpdateDialog(
+    await _showUpdateSheet(
       context: context,
       title: loc.changeEmail,
       label: loc.newEmail,
@@ -214,13 +214,13 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
     controller.dispose();
   }
 
-  Future<void> _showChangePasswordDialog(
+  Future<void> _showChangePasswordSheet(
     BuildContext context,
     WidgetRef ref,
   ) async {
     final loc = AppLocalizations.of(context)!;
     final controller = TextEditingController();
-    await _showUpdateDialog(
+    await _showUpdateSheet(
       context: context,
       title: loc.changePassword,
       label: loc.newPassword,
@@ -237,7 +237,7 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
     controller.dispose();
   }
 
-  Future<void> _showUpdateDialog({
+  Future<void> _showUpdateSheet({
     required BuildContext context,
     required String title,
     required String label,
@@ -250,51 +250,53 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
   }) async {
     final formKey = GlobalKey<FormState>();
     var loading = false;
-    final success = await showDialog<bool>(
+    final success = await showModalBottomSheet<bool>(
       context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text(title),
-          content: Form(
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setSheetState) => BottomSheetPinnedTitleScrollView(
+          title: title,
+          child: Form(
             key: formKey,
-            child: TextFormField(
-              controller: controller,
-              keyboardType: keyboardType,
-              obscureText: obscureText,
-              autofocus: true,
-              enabled: !loading,
-              validator: validator,
-              decoration: InputDecoration(labelText: label),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  obscureText: obscureText,
+                  autofocus: true,
+                  enabled: !loading,
+                  validator: validator,
+                  decoration: InputDecoration(labelText: label),
+                ),
+                const SizedBox(height: 24),
+                FilledButton(
+                  onPressed: loading
+                      ? null
+                      : () async {
+                          if (!formKey.currentState!.validate()) return;
+                          setSheetState(() => loading = true);
+                          try {
+                            await update(controller.text);
+                            if (context.mounted) Navigator.pop(context, true);
+                          } on AuthException catch (error) {
+                            if (context.mounted) {
+                              setSheetState(() => loading = false);
+                            }
+                            if (mounted) {
+                              ScaffoldMessenger.of(this.context).showSnackBar(
+                                SnackBar(content: Text(error.message)),
+                              );
+                            }
+                          }
+                        },
+                  child: Text(AppLocalizations.of(context)!.saveButton),
+                ),
+              ],
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: loading ? null : () => Navigator.pop(context, false),
-              child: Text(AppLocalizations.of(context)!.cancelButton),
-            ),
-            FilledButton(
-              onPressed: loading
-                  ? null
-                  : () async {
-                      if (!formKey.currentState!.validate()) return;
-                      setDialogState(() => loading = true);
-                      try {
-                        await update(controller.text);
-                        if (context.mounted) Navigator.pop(context, true);
-                      } on AuthException catch (error) {
-                        if (context.mounted) {
-                          setDialogState(() => loading = false);
-                        }
-                        if (mounted) {
-                          ScaffoldMessenger.of(this.context).showSnackBar(
-                            SnackBar(content: Text(error.message)),
-                          );
-                        }
-                      }
-                    },
-              child: Text(AppLocalizations.of(context)!.saveButton),
-            ),
-          ],
         ),
       ),
     );
@@ -302,5 +304,64 @@ class _SettingsHomePageState extends ConsumerState<SettingsHomePage> {
       ScaffoldMessenger.of(this.context)
           .showSnackBar(SnackBar(content: Text(successMessage)));
     }
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader(this.title);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleMedium
+            ?.copyWith(fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+}
+
+class _SectionDivider extends StatelessWidget {
+  const _SectionDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: Divider(height: 1),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  const _SettingsTile({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: Icon(
+        icon,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
+      title: Text(title),
+      subtitle: subtitle == null ? null : Text(subtitle!),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: onTap,
+    );
   }
 }

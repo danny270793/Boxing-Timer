@@ -39,7 +39,6 @@ class _BoxingTimerAppState extends ConsumerState<BoxingTimerApp>
     with WidgetsBindingObserver {
   bool _lockOnResume = false;
   bool _locked = false;
-  bool _unlocking = false;
 
   @override
   void initState() {
@@ -70,28 +69,7 @@ class _BoxingTimerAppState extends ConsumerState<BoxingTimerApp>
       final biometric = ref.read(biometricControllerProvider);
       if (auth.isAuthenticated && biometric.enabled) {
         setState(() => _locked = true);
-        unawaited(_unlock());
       }
-    }
-  }
-
-  Future<void> _unlock() async {
-    if (_unlocking) return;
-    _unlocking = true;
-    try {
-      final loc = AppLocalizations.of(context)!;
-      final controller = ref.read(biometricControllerProvider.notifier);
-      await controller.refreshAvailability();
-      if (!mounted) return;
-      if (!ref.read(biometricControllerProvider).available ||
-          !ref.read(authControllerProvider).isAuthenticated) {
-        setState(() => _locked = false);
-        return;
-      }
-      final unlocked = await controller.authenticate(loc.biometricResumeReason);
-      if (unlocked && mounted) setState(() => _locked = false);
-    } finally {
-      _unlocking = false;
     }
   }
 
@@ -112,37 +90,88 @@ class _BoxingTimerAppState extends ConsumerState<BoxingTimerApp>
       debugShowCheckedModeBanner: true,
       builder: (context, child) {
         if (!_locked) return child ?? const SizedBox.shrink();
-        final loc = AppLocalizations.of(context)!;
         return PopScope(
           canPop: false,
-          child: Material(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.lock_outline_rounded, size: 56),
-                    const SizedBox(height: 20),
-                    Text(
-                      loc.biometricLockTitle,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(loc.biometricLockBody, textAlign: TextAlign.center),
-                    const SizedBox(height: 24),
-                    FilledButton.icon(
-                      onPressed: _unlocking ? null : _unlock,
-                      icon: const Icon(Icons.fingerprint),
-                      label: Text(loc.unlockButton),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          child: _BiometricLockScreen(
+            onUnlocked: () => setState(() => _locked = false),
           ),
         );
       },
+    );
+  }
+}
+
+class _BiometricLockScreen extends ConsumerStatefulWidget {
+  const _BiometricLockScreen({required this.onUnlocked});
+
+  final VoidCallback onUnlocked;
+
+  @override
+  ConsumerState<_BiometricLockScreen> createState() =>
+      _BiometricLockScreenState();
+}
+
+class _BiometricLockScreenState extends ConsumerState<_BiometricLockScreen> {
+  bool _busy = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _unlock());
+  }
+
+  Future<void> _unlock() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    final loc = AppLocalizations.of(context)!;
+    final controller = ref.read(biometricControllerProvider.notifier);
+    var unlocked = false;
+    try {
+      await controller.refreshAvailability();
+      // Nothing left to unlock with: let the user back into the app rather
+      // than trapping them behind a prompt that can never succeed.
+      if (!ref.read(biometricControllerProvider).available ||
+          !ref.read(authControllerProvider).isAuthenticated) {
+        unlocked = true;
+      } else {
+        unlocked = await controller.authenticate(loc.biometricResumeReason);
+      }
+    } catch (_) {
+      unlocked = false;
+    }
+    if (!mounted) return;
+    setState(() => _busy = false);
+    if (unlocked) widget.onUnlocked();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return Material(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.lock_outline_rounded, size: 56),
+              const SizedBox(height: 20),
+              Text(
+                loc.biometricLockTitle,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 12),
+              Text(loc.biometricLockBody, textAlign: TextAlign.center),
+              const SizedBox(height: 24),
+              FilledButton.icon(
+                onPressed: _busy ? null : _unlock,
+                icon: const Icon(Icons.fingerprint),
+                label: Text(loc.unlockButton),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

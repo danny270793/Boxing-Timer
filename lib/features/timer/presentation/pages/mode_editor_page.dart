@@ -194,7 +194,6 @@ class _ModeEditorPageState extends ConsumerState<ModeEditorPage> {
             child: FilledButton(
               onPressed: _save,
               style: FilledButton.styleFrom(
-                backgroundColor: Colors.red,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),

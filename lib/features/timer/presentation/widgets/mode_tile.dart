@@ -27,7 +27,8 @@ class ModeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final colors = Theme.of(context).colorScheme;
+    final onSurface = colors.onSurface;
     final subtitle = mode.restSeconds > 0
         ? '${loc.modeRoundsCount(mode.totalRounds)} • '
               '${loc.workDuration(formatSeconds(mode.roundSeconds))} • '
@@ -36,12 +37,12 @@ class ModeTile extends StatelessWidget {
               '${loc.workDuration(formatSeconds(mode.roundSeconds))}';
 
     return Card(
-      color: isSelected ? Colors.red.withValues(alpha: 0.12) : null,
+      color: isSelected ? colors.primary.withValues(alpha: 0.12) : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
           color: isSelected
-              ? Colors.redAccent
+              ? colors.primary
               : onSurface.withValues(alpha: 0.12),
           width: isSelected ? 1.5 : 1,
         ),
@@ -57,7 +58,7 @@ class ModeTile extends StatelessWidget {
               Icon(
                 isSelected ? Icons.check_circle : Icons.circle_outlined,
                 color: isSelected
-                    ? Colors.redAccent
+                    ? colors.primary
                     : onSurface.withValues(alpha: 0.38),
               ),
               const SizedBox(width: 16),

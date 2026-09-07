@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/app_info/package_info_provider.dart';
 import '../../../../l10n/generated/app_localizations.dart';
+import '../widgets/developer_info_section.dart';
 
 class AboutPage extends ConsumerWidget {
   const AboutPage({super.key});
@@ -58,12 +59,13 @@ class AboutPage extends ConsumerWidget {
             style: const TextStyle(fontSize: 15, height: 1.5),
           ),
           const SizedBox(height: 32),
-          Text(
-            loc.contactLabel,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          DeveloperInfoSection(
+            heading: loc.contactLabel,
+            githubLabel: loc.developerGithub,
+            websiteLabel: loc.developerWebsite,
+            youtubeLabel: loc.developerYoutube,
+            linkedinLabel: loc.developerLinkedin,
           ),
-          const SizedBox(height: 4),
-          Text(loc.contactEmail),
         ],
       ),
     );

@@ -103,16 +103,8 @@ class TimerPage extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Container(
-              width: double.infinity,
+            Padding(
               padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
-              decoration: BoxDecoration(
-                color: onSurface.withValues(alpha: 0.04),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(28),
-                  topRight: Radius.circular(28),
-                ),
-              ),
               child: ControlButtons(
                 phase: state.phase,
                 isPaused: state.isPaused,
