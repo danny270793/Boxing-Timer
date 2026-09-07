@@ -335,10 +335,25 @@ class AppLocalizationsEs extends AppLocalizations {
       'Boxing Timer te ayuda a llevar temporizadores de asaltos estructurados para boxeo, MMA y otros deportes de combate. Configura la duración del calentamiento, los asaltos y los descansos, guarda tus configuraciones favoritas como modos, y entrena con señales de audio al iniciar cada asalto y en los últimos diez segundos de cada uno.';
 
   @override
-  String get contactLabel => 'Contacto';
+  String get contactLabel => 'Desarrollador';
 
   @override
-  String get contactEmail => 'support@example.com';
+  String get developerName => 'Danny Vaca';
+
+  @override
+  String get developerEmail => 'danny270793@icloud.com';
+
+  @override
+  String get developerGithub => 'GitHub';
+
+  @override
+  String get developerWebsite => 'Sitio web';
+
+  @override
+  String get developerYoutube => 'YouTube';
+
+  @override
+  String get developerLinkedin => 'LinkedIn';
 
   @override
   String get termsTitle => 'Términos y condiciones';

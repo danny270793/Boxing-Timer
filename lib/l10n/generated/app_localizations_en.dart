@@ -333,10 +333,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Boxing Timer helps you run structured round timers for boxing, MMA, and other combat sports. Configure warm-up, round, and rest durations, save your favorite setups as modes, and train with audio cues for round starts and the final ten seconds of each round.';
 
   @override
-  String get contactLabel => 'Contact';
+  String get contactLabel => 'Developer';
 
   @override
-  String get contactEmail => 'support@example.com';
+  String get developerName => 'Danny Vaca';
+
+  @override
+  String get developerEmail => 'danny270793@icloud.com';
+
+  @override
+  String get developerGithub => 'GitHub';
+
+  @override
+  String get developerWebsite => 'Website';
+
+  @override
+  String get developerYoutube => 'YouTube';
+
+  @override
+  String get developerLinkedin => 'LinkedIn';
 
   @override
   String get termsTitle => 'Terms & Conditions';
