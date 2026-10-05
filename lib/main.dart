@@ -1,174 +1,273 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'core/persistence/shared_preferences_provider.dart';
-import 'core/security/biometric_controller.dart';
+import 'core/di/injection.dart';
+import 'core/locale/app_locale_controller.dart';
+import 'core/logger/app_logger.dart';
+import 'core/security/app_biometric_unlock_controller.dart';
 import 'core/theme/app_theme.dart';
-import 'features/auth/application/auth_controller.dart';
-import 'features/settings/application/app_settings_controller.dart';
-import 'l10n/generated/app_localizations.dart';
-import 'routing/app_router.dart';
+import 'core/theme/app_theme_controller.dart';
+import 'features/auth/presentation/cubit/auth_cubit.dart';
+import 'features/timer/presentation/cubit/modes_cubit.dart';
+import 'l10n/app_localizations.dart';
+import 'router.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  AppLogger.info('initializing Supabase');
   await Supabase.initialize(
     url: const String.fromEnvironment('SUPABASE_URL'),
     publishableKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
   );
-  final prefs = await SharedPreferences.getInstance();
-  runApp(
-    ProviderScope(
-      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
-      child: const BoxingTimerApp(),
-    ),
-  );
+  AppLogger.info('Supabase initialized');
+
+  setupDi();
+  AppLogger.info('DI setup complete');
+  await bootstrap();
+
+  runApp(const App());
 }
 
-class BoxingTimerApp extends ConsumerStatefulWidget {
-  const BoxingTimerApp({super.key});
+/// Loads persisted preferences and session state before the first frame.
+Future<void> bootstrap() async {
+  await getIt<AppLocaleController>().load();
+  await getIt<AppThemeController>().load();
+  await getIt<AppBiometricUnlockController>().load();
+  await getIt<ModesCubit>().load();
+  await getIt<AuthCubit>().refresh();
+}
+
+class App extends StatefulWidget {
+  const App({super.key});
+
+  static Locale? _resolveDeviceLocale(
+    Locale? deviceLocale,
+    Iterable<Locale> supported,
+  ) {
+    if (deviceLocale == null) return supported.first;
+    for (final loc in supported) {
+      if (loc.languageCode == deviceLocale.languageCode) return loc;
+    }
+    return supported.first;
+  }
 
   @override
-  ConsumerState<BoxingTimerApp> createState() => _BoxingTimerAppState();
+  State<App> createState() => _AppState();
 }
 
-class _BoxingTimerAppState extends ConsumerState<BoxingTimerApp>
-    with WidgetsBindingObserver {
-  bool _lockOnResume = false;
-  bool _locked = false;
+class _AppState extends State<App> with WidgetsBindingObserver {
+  late final GoRouter _router = createRouter();
+
+  /// True after [AppLifecycleState.paused]; cleared on resume so cold start does not lock.
+  bool _shouldUnlockOnNextResume = false;
+
+  /// Full-screen gate: no router navigation visible until cleared.
+  bool _biometricLockActive = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    unawaited(
-      Future<void>(
-        () => ref
-            .read(biometricControllerProvider.notifier)
-            .refreshAvailability(),
-      ),
-    );
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _router.dispose();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-      _lockOnResume = true;
-    } else if (state == AppLifecycleState.resumed && _lockOnResume) {
-      _lockOnResume = false;
-      final auth = ref.read(authControllerProvider);
-      final biometric = ref.read(biometricControllerProvider);
-      if (auth.isAuthenticated && biometric.enabled) {
-        setState(() => _locked = true);
-      }
+      _shouldUnlockOnNextResume = true;
+    } else if (state == AppLifecycleState.resumed &&
+        _shouldUnlockOnNextResume) {
+      _shouldUnlockOnNextResume = false;
+      unawaited(_activateBiometricLockIfNeeded());
+    }
+  }
+
+  Future<void> _activateBiometricLockIfNeeded() async {
+    if (!getIt<AuthCubit>().state.isAuthenticated) return;
+    final bio = getIt<AppBiometricUnlockController>();
+    if (!bio.enabled) return;
+    if (!mounted) return;
+    setState(() => _biometricLockActive = true);
+  }
+
+  void _clearBiometricLock() {
+    if (_biometricLockActive) {
+      setState(() => _biometricLockActive = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(appSettingsControllerProvider);
-    final router = ref.watch(appRouterProvider);
-
-    return MaterialApp.router(
-      title: 'Boxing timer',
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: settings.themeMode,
-      locale: settings.locale,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      routerConfig: router,
-      debugShowCheckedModeBanner: true,
-      builder: (context, child) {
-        if (!_locked) return child ?? const SizedBox.shrink();
-        return PopScope(
-          canPop: false,
-          child: _BiometricLockScreen(
-            onUnlocked: () => setState(() => _locked = false),
-          ),
+    final appLocale = getIt<AppLocaleController>();
+    final appTheme = getIt<AppThemeController>();
+    return ListenableBuilder(
+      listenable: Listenable.merge([appLocale, appTheme]),
+      builder: (context, _) {
+        return MaterialApp.router(
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: appLocale.materialAppLocale,
+          localeResolutionCallback: App._resolveDeviceLocale,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: appTheme.themeMode,
+          routerConfig: _router,
+          builder: (context, child) {
+            if (_biometricLockActive) {
+              return PopScope(
+                canPop: false,
+                child: _BiometricLockScreen(onUnlocked: _clearBiometricLock),
+              );
+            }
+            return child ?? const SizedBox.shrink();
+          },
         );
       },
     );
   }
 }
 
-class _BiometricLockScreen extends ConsumerStatefulWidget {
+class _BiometricLockScreen extends StatefulWidget {
   const _BiometricLockScreen({required this.onUnlocked});
 
   final VoidCallback onUnlocked;
 
   @override
-  ConsumerState<_BiometricLockScreen> createState() =>
-      _BiometricLockScreenState();
+  State<_BiometricLockScreen> createState() => _BiometricLockScreenState();
 }
 
-class _BiometricLockScreenState extends ConsumerState<_BiometricLockScreen> {
+class _BiometricLockScreenState extends State<_BiometricLockScreen> {
+  /// True while refresh + system biometric UI may be active — disables the Unlock button.
   bool _busy = false;
+
+  /// Prevents overlapping [_attemptUnlock] runs (e.g. double-tap before first await).
+  bool _unlockInFlight = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _unlock());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _attemptUnlock());
   }
 
-  Future<void> _unlock() async {
-    if (_busy) return;
+  Future<void> _attemptUnlock() async {
+    if (!mounted) return;
+
+    if (!getIt<AuthCubit>().state.isAuthenticated) {
+      widget.onUnlocked();
+      return;
+    }
+
+    if (_unlockInFlight) return;
+    _unlockInFlight = true;
     setState(() => _busy = true);
-    final loc = AppLocalizations.of(context)!;
-    final controller = ref.read(biometricControllerProvider.notifier);
-    var unlocked = false;
+
     try {
-      await controller.refreshAvailability();
+      final bio = getIt<AppBiometricUnlockController>();
+      await bio.refreshAuthenticatorAvailability();
+      if (!mounted) return;
+
       // Nothing left to unlock with: let the user back into the app rather
       // than trapping them behind a prompt that can never succeed.
-      if (!ref.read(biometricControllerProvider).available ||
-          !ref.read(authControllerProvider).isAuthenticated) {
-        unlocked = true;
-      } else {
-        unlocked = await controller.authenticate(loc.biometricResumeReason);
+      if (!bio.enabled || !bio.authenticatorAvailable) {
+        widget.onUnlocked();
+        return;
       }
-    } catch (_) {
-      unlocked = false;
+
+      final l10n = AppLocalizations.of(context);
+      if (l10n == null) return;
+
+      var ok = false;
+      try {
+        ok = await bio.localAuth
+            .authenticate(
+              localizedReason: l10n.settingsBiometricResumeReason,
+              biometricOnly: true,
+              persistAcrossBackgrounding: true,
+            )
+            .catchError(
+              (Object _) => false,
+              test: (e) => e is LocalAuthException,
+            );
+      } catch (_) {
+        ok = false;
+      }
+      if (!mounted) return;
+
+      if (ok) {
+        widget.onUnlocked();
+      }
+    } finally {
+      _unlockInFlight = false;
+      if (mounted) setState(() => _busy = false);
     }
-    if (!mounted) return;
-    setState(() => _busy = false);
-    if (unlocked) widget.onUnlocked();
   }
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
     return Material(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.lock_outline_rounded, size: 56),
-              const SizedBox(height: 20),
-              Text(
-                loc.biometricLockTitle,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 12),
-              Text(loc.biometricLockBody, textAlign: TextAlign.center),
-              const SizedBox(height: 24),
-              FilledButton.icon(
-                onPressed: _busy ? null : _unlock,
-                icon: const Icon(Icons.fingerprint),
-                label: Text(loc.unlockButton),
-              ),
-            ],
+      color: scheme.surface,
+      child: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.lock_outline_rounded,
+                  size: 56,
+                  color: scheme.primary,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  l10n.biometricLockTitle,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  l10n.biometricLockBody,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                    height: 1.35,
+                  ),
+                ),
+                const SizedBox(height: 28),
+                FilledButton.icon(
+                  onPressed: _busy ? null : _attemptUnlock,
+                  icon: _busy
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: scheme.onPrimary,
+                          ),
+                        )
+                      : const Icon(Icons.fingerprint_rounded),
+                  label: Text(l10n.biometricLockUnlockButton),
+                ),
+              ],
+            ),
           ),
         ),
       ),

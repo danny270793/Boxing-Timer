@@ -1,29 +1,34 @@
 import 'dart:async';
 
-import 'package:boxing_timmer/core/persistence/shared_preferences_provider.dart';
-import 'package:boxing_timmer/core/security/biometric_controller.dart';
-import 'package:boxing_timmer/features/auth/application/auth_controller.dart';
+import 'package:boxing_timmer/core/di/injection.dart';
+import 'package:boxing_timmer/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:boxing_timmer/features/auth/domain/entities/user_entity.dart';
+import 'package:boxing_timmer/features/timer/presentation/cubit/timer_cubit.dart';
 import 'package:boxing_timmer/main.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FakeAuthService implements AuthService {
-  FakeAuthService([this._user]);
+class FakeAuthRemoteDatasource implements AuthRemoteDatasource {
+  FakeAuthRemoteDatasource([this._user]);
 
-  final _changes = StreamController<AuthUser?>.broadcast();
-  AuthUser? _user;
-
-  @override
-  AuthUser? get currentUser => _user;
+  final _changes = StreamController<UserEntity?>.broadcast();
+  UserEntity? _user;
 
   @override
-  Stream<AuthUser?> get authStateChanges => _changes.stream;
+  UserEntity? get currentUser => _user;
 
   @override
-  Future<void> signIn({required String email, required String password}) async {
-    _user = AuthUser(email: email);
-    _changes.add(_user);
+  Stream<UserEntity?> get authStateChanges => _changes.stream;
+
+  @override
+  Future<UserEntity> signIn({
+    required String email,
+    required String password,
+  }) async {
+    final user = UserEntity(id: 'user-1', email: email);
+    _user = user;
+    _changes.add(user);
+    return user;
   }
 
   @override
@@ -33,46 +38,34 @@ class FakeAuthService implements AuthService {
   }
 
   @override
-  Future<void> updateEmail(String email) async {
-    _user = AuthUser(email: email);
+  Future<void> updateEmail({required String newEmail}) async {
+    _user = UserEntity(id: _user?.id ?? 'user-1', email: newEmail);
     _changes.add(_user);
   }
 
   @override
-  Future<void> updatePassword(String password) async {}
-}
-
-class FakeBiometricService implements BiometricService {
-  @override
-  Future<bool> authenticate(String reason) async => true;
-
-  @override
-  Future<bool> isAvailable() async => true;
+  Future<void> updatePassword({required String newPassword}) async {}
 }
 
 Future<void> pumpApp(
   WidgetTester tester, {
-  required FakeAuthService auth,
+  required FakeAuthRemoteDatasource auth,
   Map<String, Object> preferences = const {},
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
-  final prefs = await SharedPreferences.getInstance();
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(prefs),
-        authServiceProvider.overrideWithValue(auth),
-        biometricServiceProvider.overrideWithValue(FakeBiometricService()),
-      ],
-      child: const BoxingTimerApp(),
-    ),
-  );
+  setupDi(authRemoteDatasource: auth);
+  await tester.runAsync(bootstrap);
+  await tester.pumpWidget(const App());
   await tester.pumpAndSettle();
 }
 
 void main() {
+  tearDown(() async {
+    await getIt.reset();
+  });
+
   testWidgets('guest choice opens timer and remains local', (tester) async {
-    await pumpApp(tester, auth: FakeAuthService());
+    await pumpApp(tester, auth: FakeAuthRemoteDatasource());
 
     expect(find.text('Continue without account'), findsOneWidget);
     await tester.tap(find.text('Continue without account'));
@@ -86,12 +79,14 @@ void main() {
 
     expect(find.text('WARM UP'), findsOneWidget);
     expect(find.text('00:10'), findsOneWidget);
+
+    getIt<TimerCubit>().stop();
   });
 
   testWidgets('persisted guest bypasses login', (tester) async {
     await pumpApp(
       tester,
-      auth: FakeAuthService(),
+      auth: FakeAuthRemoteDatasource(),
       preferences: const {'continue_without_account': true},
     );
 
@@ -104,7 +99,9 @@ void main() {
   ) async {
     await pumpApp(
       tester,
-      auth: FakeAuthService(const AuthUser(email: 'boxer@example.com')),
+      auth: FakeAuthRemoteDatasource(
+        const UserEntity(id: 'user-1', email: 'boxer@example.com'),
+      ),
     );
 
     await tester.tap(find.byTooltip('Settings'));
@@ -115,5 +112,22 @@ void main() {
     expect(find.text('Change password'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Sign out'), 300);
     expect(find.text('Sign out'), findsOneWidget);
+  });
+
+  testWidgets('settings about section offers Google Play rating', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      auth: FakeAuthRemoteDatasource(),
+      preferences: const {'continue_without_account': true},
+    );
+
+    await tester.tap(find.byTooltip('Settings'));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(find.text('Rate on Google Play'), 300);
+    expect(find.text('Rate on Google Play'), findsOneWidget);
+    expect(find.text('Privacy policy'), findsOneWidget);
   });
 }

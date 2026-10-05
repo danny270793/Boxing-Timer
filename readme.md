@@ -1,8 +1,8 @@
-# Boxing timer
+# Boxing Timer
 
 Round timer with local modes. Auth is optional (continue without an account). Timer data stays on the device.
 
-Flutter **3.47.2** (see [`.tool-versions`](.tool-versions)). Package: `io.github.danny270793.mobile.boxing_timmer`.
+Flutter **3.47.2** (see [`.tool-versions`](.tool-versions)). Package: `io.github.danny270793.boxingtimmer`.
 
 ## Quick start
 
