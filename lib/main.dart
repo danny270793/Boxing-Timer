@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/di/injection.dart';
 import 'core/locale/app_locale_controller.dart';
@@ -14,16 +13,16 @@ import 'core/logger/app_logger.dart';
 import 'core/security/app_biometric_unlock_controller.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_theme_controller.dart';
-import 'features/auth/presentation/cubit/auth_cubit.dart';
 import 'features/timer/presentation/cubit/modes_cubit.dart';
 import 'l10n/app_localizations.dart';
 import 'router.dart';
 
-// Dart's HttpClient (used under the hood by package:http and thus by
-// Supabase) has its own bundled trust store, independent of the Android/iOS
-// OS trust store - installing a corporate proxy's root CA (e.g. Zscaler) at
-// the OS level does nothing for it. Debug-only: trust it here too, so local
-// dev works behind a TLS-intercepting proxy. Never runs in release builds.
+// Dart's HttpClient (used under the hood by NetworkImage, e.g. the developer
+// photo on the About page) has its own bundled trust store, independent of the
+// Android/iOS OS trust store - installing a corporate proxy's root CA (e.g.
+// Zscaler) at the OS level does nothing for it. Debug-only: trust it here too,
+// so local dev works behind a TLS-intercepting proxy. Never runs in release
+// builds.
 Future<void> _trustDevProxyCertificateIfNeeded() async {
   if (!kDebugMode) return;
   try {
@@ -41,13 +40,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _trustDevProxyCertificateIfNeeded();
 
-  AppLogger.info('initializing Supabase');
-  await Supabase.initialize(
-    url: const String.fromEnvironment('SUPABASE_URL'),
-    publishableKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
-  );
-  AppLogger.info('Supabase initialized');
-
   setupDi();
   AppLogger.info('DI setup complete');
   await bootstrap();
@@ -55,13 +47,12 @@ Future<void> main() async {
   runApp(const App());
 }
 
-/// Loads persisted preferences and session state before the first frame.
+/// Loads persisted preferences before the first frame.
 Future<void> bootstrap() async {
   await getIt<AppLocaleController>().load();
   await getIt<AppThemeController>().load();
   await getIt<AppBiometricUnlockController>().load();
   await getIt<ModesCubit>().load();
-  await getIt<AuthCubit>().refresh();
 }
 
 class App extends StatefulWidget {
@@ -85,15 +76,18 @@ class App extends StatefulWidget {
 class _AppState extends State<App> with WidgetsBindingObserver {
   late final GoRouter _router = createRouter();
 
-  /// True after [AppLifecycleState.paused]; cleared on resume so cold start does not lock.
+  /// True after [AppLifecycleState.paused]; cleared on resume.
   bool _shouldUnlockOnNextResume = false;
 
   /// Full-screen gate: no router navigation visible until cleared.
-  bool _biometricLockActive = false;
+  /// There is no sign-in, so a cold start locks too when biometrics are on.
+  late bool _biometricLockActive;
 
   @override
   void initState() {
     super.initState();
+    final bio = getIt<AppBiometricUnlockController>();
+    _biometricLockActive = bio.enabled && bio.authenticatorAvailable;
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -116,9 +110,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Future<void> _activateBiometricLockIfNeeded() async {
-    if (!getIt<AuthCubit>().state.isAuthenticated) return;
     final bio = getIt<AppBiometricUnlockController>();
-    if (!bio.enabled) return;
+    await bio.refreshAuthenticatorAvailability();
+    if (!bio.enabled || !bio.authenticatorAvailable) return;
     if (!mounted) return;
     setState(() => _biometricLockActive = true);
   }
@@ -185,12 +179,6 @@ class _BiometricLockScreenState extends State<_BiometricLockScreen> {
 
   Future<void> _attemptUnlock() async {
     if (!mounted) return;
-
-    if (!getIt<AuthCubit>().state.isAuthenticated) {
-      widget.onUnlocked();
-      return;
-    }
-
     if (_unlockInFlight) return;
     _unlockInFlight = true;
     setState(() => _busy = true);

@@ -47,9 +47,6 @@ app.*.map.json
 # Widget Preview related
 .widget_preview/
 
-# Local dart-define values (copy .env.example.json to create this file).
-.env.json
-
 # Personal corporate-proxy dev cert - environment-specific, not a secret but
 # not portable to other machines either. See main.dart's
 # _trustDevProxyCertificateIfNeeded, which already no-ops if this is absent.

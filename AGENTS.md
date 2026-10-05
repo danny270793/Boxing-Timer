@@ -69,10 +69,10 @@ When proposing or creating commits, **always** use this format. If there are mul
 
 The app follows the same layout as the reference Wallet app:
 
-- `lib/main.dart` — bootstraps Supabase, dependency injection, persisted preferences, and the biometric lock gate.
-- `lib/router.dart` — `go_router` configuration (auth redirects driven by `AuthCubit`).
+- `lib/main.dart` — bootstraps dependency injection, persisted preferences, and the biometric lock gate (no accounts: when biometric unlock is enabled the app locks on cold start and on resume).
+- `lib/router.dart` — `go_router` configuration; starts on the timer (`/`), no auth redirects.
 - `lib/core/` — cross-cutting code: `di/injection.dart` (`get_it` registrations), `locale/`, `theme/`, and `security/` `ChangeNotifier` controllers, `logger/`, `audio/`, `utils/`.
-- `lib/features/<feature>/` — `data/{datasources,repositories}`, `domain/{entities,repositories,usecases}`, `presentation/{bloc,cubit,pages}`. State management uses `flutter_bloc` (Cubit/Bloc); features: `auth`, `timer`.
-- `lib/pages/` — top-level screens (timer, modes, mode editor, settings, legal info, splash).
+- `lib/features/<feature>/` — `data/{datasources,repositories}`, `domain/{entities,repositories,usecases}`, `presentation/{bloc,cubit,pages}`. State management uses `flutter_bloc` (Cubit/Bloc); features: `timer`. All data is local (`SharedPreferences`); the app has no backend, accounts or sign-in.
+- `lib/pages/` — top-level screens (timer, modes, mode editor, settings, legal info).
 - `lib/widgets/` — reusable widgets (bottom sheets, timer display, developer info).
 - `lib/l10n/` — ARB files plus the generated `app_localizations*.dart` (`flutter gen-l10n`, see `l10n.yaml`).

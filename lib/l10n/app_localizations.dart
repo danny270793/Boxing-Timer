@@ -212,12 +212,6 @@ abstract class AppLocalizations {
   /// **'This will stop the timer completely and reset it back to the start.'**
   String get stopDialogBody;
 
-  /// No description provided for @settingsProfileSection.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get settingsProfileSection;
-
   /// No description provided for @settingsSecuritySection.
   ///
   /// In en, this message translates to:
@@ -247,54 +241,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rounds, timing and presets'**
   String get modesMenuSubtitle;
-
-  /// No description provided for @signIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in'**
-  String get signIn;
-
-  /// No description provided for @signOut.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign out'**
-  String get signOut;
-
-  /// No description provided for @signInSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in to protect your settings, or keep using the timer locally.'**
-  String get signInSubtitle;
-
-  /// No description provided for @continueWithoutAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Continue without account'**
-  String get continueWithoutAccount;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @password.
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get password;
-
-  /// No description provided for @fieldRequired.
-  ///
-  /// In en, this message translates to:
-  /// **'This field is required.'**
-  String get fieldRequired;
-
-  /// No description provided for @unexpectedError.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong. Please try again.'**
-  String get unexpectedError;
 
   /// No description provided for @biometricLockTitle.
   ///
@@ -458,102 +404,6 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
-  /// No description provided for @settingsChangeEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'Change email'**
-  String get settingsChangeEmail;
-
-  /// No description provided for @settingsChangeEmailDialogTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Change email'**
-  String get settingsChangeEmailDialogTitle;
-
-  /// No description provided for @settingsNewEmailLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'New email'**
-  String get settingsNewEmailLabel;
-
-  /// No description provided for @settingsChangeEmailSubmit.
-  ///
-  /// In en, this message translates to:
-  /// **'Update'**
-  String get settingsChangeEmailSubmit;
-
-  /// No description provided for @settingsChangeEmailSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Check your new email to confirm the change.'**
-  String get settingsChangeEmailSuccess;
-
-  /// No description provided for @settingsChangeEmailInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a valid email address.'**
-  String get settingsChangeEmailInvalid;
-
-  /// No description provided for @settingsChangeEmailSameAsCurrent.
-  ///
-  /// In en, this message translates to:
-  /// **'That is already your email.'**
-  String get settingsChangeEmailSameAsCurrent;
-
-  /// No description provided for @settingsChangePassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Change password'**
-  String get settingsChangePassword;
-
-  /// No description provided for @settingsChangePasswordSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Updates the password you use to sign in.'**
-  String get settingsChangePasswordSubtitle;
-
-  /// No description provided for @settingsChangePasswordDialogTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Change password'**
-  String get settingsChangePasswordDialogTitle;
-
-  /// No description provided for @settingsNewPasswordLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'New password'**
-  String get settingsNewPasswordLabel;
-
-  /// No description provided for @settingsConfirmNewPasswordLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm new password'**
-  String get settingsConfirmNewPasswordLabel;
-
-  /// No description provided for @settingsChangePasswordSubmit.
-  ///
-  /// In en, this message translates to:
-  /// **'Update password'**
-  String get settingsChangePasswordSubmit;
-
-  /// No description provided for @settingsChangePasswordSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Your password was updated.'**
-  String get settingsChangePasswordSuccess;
-
-  /// No description provided for @settingsPasswordsDoNotMatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Passwords do not match.'**
-  String get settingsPasswordsDoNotMatch;
-
-  /// No description provided for @settingsPasswordTooShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Password must be at least 6 characters.'**
-  String get settingsPasswordTooShort;
-
   /// No description provided for @settingsBiometricUnlockTitle.
   ///
   /// In en, this message translates to:
@@ -713,7 +563,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutDataBody.
   ///
   /// In en, this message translates to:
-  /// **'Training modes and preferences are stored on this device. Signing in is optional and handled by Supabase.'**
+  /// **'Training modes and preferences are stored only on this device. There are no accounts and nothing is uploaded.'**
   String get settingsAboutDataBody;
 
   /// No description provided for @settingsAboutDeveloperHeading.
@@ -755,25 +605,25 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacyDataTitle.
   ///
   /// In en, this message translates to:
-  /// **'Account (optional)'**
+  /// **'No account needed'**
   String get settingsPrivacyDataTitle;
 
   /// No description provided for @settingsPrivacyDataBody.
   ///
   /// In en, this message translates to:
-  /// **'You can use the app without an account. If you sign in, authentication is provided by Supabase. Your email and credentials are processed by Supabase; this app does not store your password.'**
+  /// **'Boxing Timer has no accounts and no sign-in. You never enter an email or password, and the app does not collect personal information.'**
   String get settingsPrivacyDataBody;
 
   /// No description provided for @settingsPrivacyInfraTitle.
   ///
   /// In en, this message translates to:
-  /// **'What we store today — and later'**
+  /// **'What we store'**
   String get settingsPrivacyInfraTitle;
 
   /// No description provided for @settingsPrivacyInfraBody.
   ///
   /// In en, this message translates to:
-  /// **'Custom training modes and preferences (theme, language, selected mode) are stored locally on your device. We do not currently upload app-generated data such as saved modes or favorites. In the future, if you are signed in, we may store that kind of information in Supabase so it can sync across your devices.'**
+  /// **'Custom training modes and preferences (theme, language, selected mode and biometric unlock) are stored only on this device. There are no servers and nothing is uploaded or synced. Uninstalling the app deletes this data.'**
   String get settingsPrivacyInfraBody;
 
   /// No description provided for @settingsPrivacyAnalyticsTitle.
@@ -809,7 +659,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsPrivacySharingBody.
   ///
   /// In en, this message translates to:
-  /// **'We do not sell your personal information. Sign-in data is processed by Supabase. Later cloud sync, if enabled, would also use Supabase.'**
+  /// **'We do not sell or share your personal information. All app data stays on your device.'**
   String get settingsPrivacySharingBody;
 
   /// No description provided for @settingsPrivacyNoticeTitle.
@@ -857,13 +707,13 @@ abstract class AppLocalizations {
   /// No description provided for @settingsTermsAccountTitle.
   ///
   /// In en, this message translates to:
-  /// **'Optional account'**
+  /// **'No account'**
   String get settingsTermsAccountTitle;
 
   /// No description provided for @settingsTermsAccountBody.
   ///
   /// In en, this message translates to:
-  /// **'You can use the app without signing in. If you create an account, sign-in is handled by Supabase. Training modes and similar app-generated data stay on this device today. Later versions may store that information in Supabase when you are signed in so it can sync across your devices.'**
+  /// **'You can use every feature without creating an account. Training modes and other app data stay on this device; if you uninstall the app or clear its data, they cannot be recovered.'**
   String get settingsTermsAccountBody;
 
   /// No description provided for @settingsTermsDisclaimerTitle.

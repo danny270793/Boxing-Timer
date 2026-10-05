@@ -86,9 +86,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'This will stop the timer completely and reset it back to the start.';
 
   @override
-  String get settingsProfileSection => 'Profile';
-
-  @override
   String get settingsSecuritySection => 'Security';
 
   @override
@@ -102,31 +99,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get modesMenuSubtitle => 'Rounds, timing and presets';
-
-  @override
-  String get signIn => 'Sign in';
-
-  @override
-  String get signOut => 'Sign out';
-
-  @override
-  String get signInSubtitle =>
-      'Sign in to protect your settings, or keep using the timer locally.';
-
-  @override
-  String get continueWithoutAccount => 'Continue without account';
-
-  @override
-  String get email => 'Email';
-
-  @override
-  String get password => 'Password';
-
-  @override
-  String get fieldRequired => 'This field is required.';
-
-  @override
-  String get unexpectedError => 'Something went wrong. Please try again.';
 
   @override
   String get biometricLockTitle => 'Boxing Timer is locked';
@@ -228,57 +200,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
-  String get settingsChangeEmail => 'Change email';
-
-  @override
-  String get settingsChangeEmailDialogTitle => 'Change email';
-
-  @override
-  String get settingsNewEmailLabel => 'New email';
-
-  @override
-  String get settingsChangeEmailSubmit => 'Update';
-
-  @override
-  String get settingsChangeEmailSuccess =>
-      'Check your new email to confirm the change.';
-
-  @override
-  String get settingsChangeEmailInvalid => 'Enter a valid email address.';
-
-  @override
-  String get settingsChangeEmailSameAsCurrent => 'That is already your email.';
-
-  @override
-  String get settingsChangePassword => 'Change password';
-
-  @override
-  String get settingsChangePasswordSubtitle =>
-      'Updates the password you use to sign in.';
-
-  @override
-  String get settingsChangePasswordDialogTitle => 'Change password';
-
-  @override
-  String get settingsNewPasswordLabel => 'New password';
-
-  @override
-  String get settingsConfirmNewPasswordLabel => 'Confirm new password';
-
-  @override
-  String get settingsChangePasswordSubmit => 'Update password';
-
-  @override
-  String get settingsChangePasswordSuccess => 'Your password was updated.';
-
-  @override
-  String get settingsPasswordsDoNotMatch => 'Passwords do not match.';
-
-  @override
-  String get settingsPasswordTooShort =>
-      'Password must be at least 6 characters.';
-
-  @override
   String get settingsBiometricUnlockTitle => 'Face ID & fingerprint';
 
   @override
@@ -365,7 +286,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutDataBody =>
-      'Training modes and preferences are stored on this device. Signing in is optional and handled by Supabase.';
+      'Training modes and preferences are stored only on this device. There are no accounts and nothing is uploaded.';
 
   @override
   String get settingsAboutDeveloperHeading => 'Developer';
@@ -387,18 +308,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'How Boxing Timer handles your information.';
 
   @override
-  String get settingsPrivacyDataTitle => 'Account (optional)';
+  String get settingsPrivacyDataTitle => 'No account needed';
 
   @override
   String get settingsPrivacyDataBody =>
-      'You can use the app without an account. If you sign in, authentication is provided by Supabase. Your email and credentials are processed by Supabase; this app does not store your password.';
+      'Boxing Timer has no accounts and no sign-in. You never enter an email or password, and the app does not collect personal information.';
 
   @override
-  String get settingsPrivacyInfraTitle => 'What we store today — and later';
+  String get settingsPrivacyInfraTitle => 'What we store';
 
   @override
   String get settingsPrivacyInfraBody =>
-      'Custom training modes and preferences (theme, language, selected mode) are stored locally on your device. We do not currently upload app-generated data such as saved modes or favorites. In the future, if you are signed in, we may store that kind of information in Supabase so it can sync across your devices.';
+      'Custom training modes and preferences (theme, language, selected mode and biometric unlock) are stored only on this device. There are no servers and nothing is uploaded or synced. Uninstalling the app deletes this data.';
 
   @override
   String get settingsPrivacyAnalyticsTitle => 'No analytics or advertising';
@@ -419,7 +340,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsPrivacySharingBody =>
-      'We do not sell your personal information. Sign-in data is processed by Supabase. Later cloud sync, if enabled, would also use Supabase.';
+      'We do not sell or share your personal information. All app data stays on your device.';
 
   @override
   String get settingsPrivacyNoticeTitle => 'Changes to this policy';
@@ -446,11 +367,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'The app is provided for personal, non-commercial use as a round timer for boxing, MMA, and other combat sports training. You are responsible for using the app safely and are solely responsible for any injury or harm arising from your training activities.';
 
   @override
-  String get settingsTermsAccountTitle => 'Optional account';
+  String get settingsTermsAccountTitle => 'No account';
 
   @override
   String get settingsTermsAccountBody =>
-      'You can use the app without signing in. If you create an account, sign-in is handled by Supabase. Training modes and similar app-generated data stay on this device today. Later versions may store that information in Supabase when you are signed in so it can sync across your devices.';
+      'You can use every feature without creating an account. Training modes and other app data stay on this device; if you uninstall the app or clear its data, they cannot be recovered.';
 
   @override
   String get settingsTermsDisclaimerTitle => 'No professional advice';

@@ -86,9 +86,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Esto detendrá el temporizador por completo y lo reiniciará desde el principio.';
 
   @override
-  String get settingsProfileSection => 'Perfil';
-
-  @override
   String get settingsSecuritySection => 'Seguridad';
 
   @override
@@ -102,31 +99,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get modesMenuSubtitle => 'Asaltos, tiempos y preajustes';
-
-  @override
-  String get signIn => 'Iniciar sesión';
-
-  @override
-  String get signOut => 'Cerrar sesión';
-
-  @override
-  String get signInSubtitle =>
-      'Inicia sesión para proteger tu configuración o sigue usando el temporizador localmente.';
-
-  @override
-  String get continueWithoutAccount => 'Continuar sin cuenta';
-
-  @override
-  String get email => 'Correo electrónico';
-
-  @override
-  String get password => 'Contraseña';
-
-  @override
-  String get fieldRequired => 'Este campo es obligatorio.';
-
-  @override
-  String get unexpectedError => 'Algo salió mal. Inténtalo de nuevo.';
 
   @override
   String get biometricLockTitle => 'Boxing Timer está bloqueado';
@@ -228,58 +200,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings => 'Configuración';
 
   @override
-  String get settingsChangeEmail => 'Cambiar correo electrónico';
-
-  @override
-  String get settingsChangeEmailDialogTitle => 'Cambiar correo electrónico';
-
-  @override
-  String get settingsNewEmailLabel => 'Nuevo correo electrónico';
-
-  @override
-  String get settingsChangeEmailSubmit => 'Actualizar';
-
-  @override
-  String get settingsChangeEmailSuccess =>
-      'Revisa tu correo nuevo para confirmar el cambio.';
-
-  @override
-  String get settingsChangeEmailInvalid =>
-      'Introduce un correo electrónico válido.';
-
-  @override
-  String get settingsChangeEmailSameAsCurrent => 'Ese ya es tu correo.';
-
-  @override
-  String get settingsChangePassword => 'Cambiar contraseña';
-
-  @override
-  String get settingsChangePasswordSubtitle =>
-      'Actualiza la contraseña con la que inicias sesión.';
-
-  @override
-  String get settingsChangePasswordDialogTitle => 'Cambiar contraseña';
-
-  @override
-  String get settingsNewPasswordLabel => 'Nueva contraseña';
-
-  @override
-  String get settingsConfirmNewPasswordLabel => 'Confirmar contraseña';
-
-  @override
-  String get settingsChangePasswordSubmit => 'Actualizar contraseña';
-
-  @override
-  String get settingsChangePasswordSuccess => 'Tu contraseña se actualizó.';
-
-  @override
-  String get settingsPasswordsDoNotMatch => 'Las contraseñas no coinciden.';
-
-  @override
-  String get settingsPasswordTooShort =>
-      'La contraseña debe tener al menos 6 caracteres.';
-
-  @override
   String get settingsBiometricUnlockTitle => 'Face ID y huella dactilar';
 
   @override
@@ -366,7 +286,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutDataBody =>
-      'Los modos de entrenamiento y las preferencias se guardan en este dispositivo. Iniciar sesión es opcional y lo gestiona Supabase.';
+      'Los modos de entrenamiento y las preferencias se guardan solo en este dispositivo. No hay cuentas y no se sube nada.';
 
   @override
   String get settingsAboutDeveloperHeading => 'Desarrollador';
@@ -388,18 +308,18 @@ class AppLocalizationsEs extends AppLocalizations {
       'Cómo Boxing Timer maneja tu información.';
 
   @override
-  String get settingsPrivacyDataTitle => 'Cuenta (opcional)';
+  String get settingsPrivacyDataTitle => 'Sin cuenta';
 
   @override
   String get settingsPrivacyDataBody =>
-      'Puedes usar la app sin cuenta. Si inicias sesión, la autenticación la proporciona Supabase. Tu correo y credenciales los procesa Supabase; esta app no guarda tu contraseña.';
+      'Boxing Timer no tiene cuentas ni inicio de sesión. Nunca introduces un correo ni una contraseña, y la app no recopila información personal.';
 
   @override
-  String get settingsPrivacyInfraTitle => 'Qué guardamos hoy — y más adelante';
+  String get settingsPrivacyInfraTitle => 'Qué guardamos';
 
   @override
   String get settingsPrivacyInfraBody =>
-      'Los modos de entrenamiento personalizados y las preferencias (tema, idioma, modo seleccionado) se almacenan en este dispositivo. Hoy no subimos datos generados por la app, como modos guardados o favoritos. En el futuro, si has iniciado sesión, podremos guardar ese tipo de información en Supabase para sincronizarla entre tus dispositivos.';
+      'Los modos de entrenamiento personalizados y las preferencias (tema, idioma, modo seleccionado y desbloqueo biométrico) se guardan solo en este dispositivo. No hay servidores y no se sube ni sincroniza nada. Al desinstalar la app se borran estos datos.';
 
   @override
   String get settingsPrivacyAnalyticsTitle => 'Sin análisis ni publicidad';
@@ -420,7 +340,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsPrivacySharingBody =>
-      'No vendemos tu información personal. El inicio de sesión lo procesa Supabase. Si más adelante hay sincronización en la nube, también usaría Supabase.';
+      'No vendemos ni compartimos tu información personal. Todos los datos de la app se quedan en tu dispositivo.';
 
   @override
   String get settingsPrivacyNoticeTitle => 'Cambios a esta política';
@@ -447,11 +367,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'La app se ofrece para uso personal y no comercial como temporizador de asaltos para entrenamiento de boxeo, MMA y otros deportes de combate. Eres responsable de usar la app de forma segura y de cualquier lesión o daño derivado de tus actividades de entrenamiento.';
 
   @override
-  String get settingsTermsAccountTitle => 'Cuenta opcional';
+  String get settingsTermsAccountTitle => 'Sin cuenta';
 
   @override
   String get settingsTermsAccountBody =>
-      'Puedes usar la app sin iniciar sesión. Si creas una cuenta, el acceso lo gestiona Supabase. Los modos de entrenamiento y datos similares generados por la app se quedan hoy en este dispositivo. Versiones posteriores podrán guardar esa información en Supabase cuando hayas iniciado sesión, para sincronizarla entre tus dispositivos.';
+      'Puedes usar todas las funciones sin crear una cuenta. Los modos de entrenamiento y demás datos de la app se quedan en este dispositivo; si desinstalas la app o borras sus datos, no se pueden recuperar.';
 
   @override
   String get settingsTermsDisclaimerTitle => 'No es asesoría profesional';

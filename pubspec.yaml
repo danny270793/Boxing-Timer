@@ -41,7 +41,6 @@ dependencies:
     sdk: flutter
   intl: ^0.20.3
   package_info_plus: ^10.2.1
-  supabase_flutter: ^2.0.0
   local_auth: ^3.0.2
   url_launcher: ^6.3.2
   get_it: ^9.3.0
