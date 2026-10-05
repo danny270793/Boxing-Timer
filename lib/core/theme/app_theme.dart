@@ -19,6 +19,9 @@ class AppTheme {
         backgroundColor: Color(0xFF0A0A0A),
         elevation: 0,
       ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        clipBehavior: Clip.antiAlias,
+      ),
     );
   }
 
@@ -34,6 +37,9 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: Color(0xFFFAFAFA),
         elevation: 0,
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        clipBehavior: Clip.antiAlias,
       ),
     );
   }

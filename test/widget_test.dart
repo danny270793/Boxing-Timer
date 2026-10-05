@@ -1,119 +1,70 @@
-import 'dart:async';
-
-import 'package:boxing_timmer/core/persistence/shared_preferences_provider.dart';
-import 'package:boxing_timmer/core/security/biometric_controller.dart';
-import 'package:boxing_timmer/features/auth/application/auth_controller.dart';
+import 'package:boxing_timmer/core/di/injection.dart';
+import 'package:boxing_timmer/features/timer/presentation/cubit/timer_cubit.dart';
 import 'package:boxing_timmer/main.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FakeAuthService implements AuthService {
-  FakeAuthService([this._user]);
-
-  final _changes = StreamController<AuthUser?>.broadcast();
-  AuthUser? _user;
-
-  @override
-  AuthUser? get currentUser => _user;
-
-  @override
-  Stream<AuthUser?> get authStateChanges => _changes.stream;
-
-  @override
-  Future<void> signIn({required String email, required String password}) async {
-    _user = AuthUser(email: email);
-    _changes.add(_user);
-  }
-
-  @override
-  Future<void> signOut() async {
-    _user = null;
-    _changes.add(null);
-  }
-
-  @override
-  Future<void> updateEmail(String email) async {
-    _user = AuthUser(email: email);
-    _changes.add(_user);
-  }
-
-  @override
-  Future<void> updatePassword(String password) async {}
-}
-
-class FakeBiometricService implements BiometricService {
-  @override
-  Future<bool> authenticate(String reason) async => true;
-
-  @override
-  Future<bool> isAvailable() async => true;
-}
-
 Future<void> pumpApp(
   WidgetTester tester, {
-  required FakeAuthService auth,
   Map<String, Object> preferences = const {},
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
-  final prefs = await SharedPreferences.getInstance();
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(prefs),
-        authServiceProvider.overrideWithValue(auth),
-        biometricServiceProvider.overrideWithValue(FakeBiometricService()),
-      ],
-      child: const BoxingTimerApp(),
-    ),
-  );
+  setupDi();
+  await tester.runAsync(bootstrap);
+  await tester.pumpWidget(const App());
   await tester.pumpAndSettle();
 }
 
 void main() {
-  testWidgets('guest choice opens timer and remains local', (tester) async {
-    await pumpApp(tester, auth: FakeAuthService());
+  tearDown(() async {
+    await getIt.reset();
+  });
 
-    expect(find.text('Continue without account'), findsOneWidget);
-    await tester.tap(find.text('Continue without account'));
-    await tester.pumpAndSettle();
+  testWidgets('app opens directly on the timer without a login screen', (
+    tester,
+  ) async {
+    await pumpApp(tester);
 
     expect(find.text('Start'), findsOneWidget);
     expect(find.text('READY'), findsOneWidget);
+    expect(find.text('Sign in'), findsNothing);
 
     await tester.tap(find.text('Start'));
     await tester.pump();
 
     expect(find.text('WARM UP'), findsOneWidget);
     expect(find.text('00:10'), findsOneWidget);
+
+    getIt<TimerCubit>().stop();
   });
 
-  testWidgets('persisted guest bypasses login', (tester) async {
-    await pumpApp(
-      tester,
-      auth: FakeAuthService(),
-      preferences: const {'continue_without_account': true},
-    );
-
-    expect(find.text('Start'), findsOneWidget);
-    expect(find.text('Sign in'), findsNothing);
-  });
-
-  testWidgets('authenticated settings show profile and sign out', (
+  testWidgets('settings show security biometric unlock and no sign in', (
     tester,
   ) async {
-    await pumpApp(
-      tester,
-      auth: FakeAuthService(const AuthUser(email: 'boxer@example.com')),
-    );
+    await pumpApp(tester);
 
     await tester.tap(find.byTooltip('Settings'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Change email'), findsOneWidget);
-    expect(find.text('boxer@example.com'), findsOneWidget);
-    expect(find.text('Change password'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Sign out'), 300);
-    expect(find.text('Sign out'), findsOneWidget);
+    expect(find.text('Security'), findsOneWidget);
+    expect(find.text('Face ID & fingerprint'), findsOneWidget);
+    expect(find.text('Sign in'), findsNothing);
+    expect(find.text('Sign out'), findsNothing);
+    expect(find.text('Profile'), findsNothing);
+  });
+
+  testWidgets('settings about section offers Google Play rating', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+
+    await tester.tap(find.byTooltip('Settings'));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(find.text('Rate on Google Play'), 300);
+    expect(find.text('Rate on Google Play'), findsOneWidget);
+    expect(find.text('Privacy policy'), findsOneWidget);
+    expect(find.text('Terms of use'), findsOneWidget);
+    expect(find.text('Sign in'), findsNothing);
   });
 }

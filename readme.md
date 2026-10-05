@@ -1,21 +1,19 @@
-# Boxing timer
+# Boxing Timer
 
-Round timer with local modes. Auth is optional (continue without an account). Timer data stays on the device.
+Round timer with local modes. No account or sign-in: all data (modes and preferences) stays on the device.
 
-Flutter **3.47.2** (see [`.tool-versions`](.tool-versions)). Package: `io.github.danny270793.mobile.boxing_timmer`.
+Flutter **3.47.2** (see [`.tool-versions`](.tool-versions)). Package: `io.github.danny270793.boxingtimmer`.
 
 ## Quick start
 
 ```sh
-cp .env.example.json .env.json   # then fill in real values
 asdf exec flutter pub get
-asdf exec flutter run --dart-define-from-file=.env.json
+asdf exec flutter run
 ```
 
 ## Documentation
 
 - [Run on an emulator or device](docs/getting-started.md)
-- [Fill `.env.json`](docs/environment.md)
 - [Sync Xcode and publish to the App Store](docs/app-store.md)
 - [Bump app version and Flutter SDK](docs/versioning.md)
 
