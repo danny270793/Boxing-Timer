@@ -85,10 +85,14 @@ class _LoginViewState extends State<_LoginView> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.sports_mma_rounded,
-                          size: 72,
-                          color: colors.primary,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(19),
+                          child: Image.asset(
+                            'assets/icon/icon.png',
+                            width: 88,
+                            height: 88,
+                            filterQuality: FilterQuality.medium,
+                          ),
                         ),
                         const SizedBox(height: 24),
                         Text(
