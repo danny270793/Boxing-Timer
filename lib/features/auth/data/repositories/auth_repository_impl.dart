@@ -27,6 +27,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> continueWithoutAccount() => _local.setGuest(true);
 
   @override
+  Future<void> leaveGuestMode() => _local.setGuest(false);
+
+  @override
   Future<UserEntity> signIn({
     required String email,
     required String password,

@@ -31,6 +31,12 @@ class AuthCubit extends Cubit<AuthState> {
     await refresh();
   }
 
+  /// Ends guest mode so the router shows the login screen.
+  Future<void> showSignIn() async {
+    await _repository.leaveGuestMode();
+    await refresh();
+  }
+
   @override
   Future<void> close() async {
     await _subscription?.cancel();

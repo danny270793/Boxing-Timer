@@ -130,4 +130,23 @@ void main() {
     expect(find.text('Rate on Google Play'), findsOneWidget);
     expect(find.text('Privacy policy'), findsOneWidget);
   });
+
+  testWidgets('guest Sign in in settings opens the login screen', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      auth: FakeAuthRemoteDatasource(),
+      preferences: const {'continue_without_account': true},
+    );
+
+    await tester.tap(find.byTooltip('Settings'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Sign in'), 300);
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Continue without account'), findsOneWidget);
+    expect(find.text('Start'), findsNothing);
+  });
 }

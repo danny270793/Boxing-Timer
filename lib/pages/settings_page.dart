@@ -386,7 +386,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   vertical: 14,
                                 ),
                               ),
-                              onPressed: () => context.go('/login'),
+                              onPressed: () => getIt<AuthCubit>().showSignIn(),
                               icon: const Icon(Icons.login_rounded),
                               label: Text(l10n.signIn),
                             ),

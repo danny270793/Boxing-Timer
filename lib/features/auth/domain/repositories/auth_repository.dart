@@ -8,6 +8,7 @@ abstract class AuthRepository {
   /// in since.
   Future<bool> isGuest();
   Future<void> continueWithoutAccount();
+  Future<void> leaveGuestMode();
 
   Future<UserEntity> signIn({required String email, required String password});
   Future<void> signOut();
